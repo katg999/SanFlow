@@ -1,15 +1,20 @@
 .map-page {
   display: grid;
   grid-template-columns: 380px 1fr;
-  height: calc(100vh - 76px);
+  gap: 16px;
+  height: calc(100vh - 68px);
+  padding: 16px;
 }
 
 .map-sidebar {
   display: flex;
   flex-direction: column;
-  border-right: 1px solid var(--color-border);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
+  box-shadow: var(--shadow-md);
   min-height: 0;
+  overflow: hidden;
 }
 
 .map-sidebar-header {
@@ -109,18 +114,21 @@
 .map-main {
   position: relative;
   min-height: 0;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
 }
 
 @media (max-width: 900px) {
   .map-page {
     grid-template-columns: 1fr;
     grid-template-rows: minmax(280px, 46vh) 1fr;
-    height: calc(100vh - 76px);
+    height: calc(100vh - 68px);
+    padding: 12px;
+    gap: 12px;
   }
 
   .map-sidebar {
-    border-right: none;
-    border-bottom: 1px solid var(--color-border);
     order: 2;
   }
 

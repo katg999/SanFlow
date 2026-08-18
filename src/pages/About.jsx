@@ -45,7 +45,7 @@ export default function About() {
           <div className="about-phase-list">
             {PHASES.map(({ icon: Icon, title, status, live, text }) => (
               <div className={`about-phase ${live ? 'is-live' : ''}`} key={title}>
-                <div className="about-phase-icon">
+                <div className="icon-badge about-phase-icon">
                   <Icon size={20} />
                 </div>
                 <div className="about-phase-body">

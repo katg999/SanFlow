@@ -37,21 +37,8 @@
   background: var(--color-accent-tint);
 }
 
-.about-phase-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  background: var(--color-primary-tint);
-  color: var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .about-phase.is-live .about-phase-icon {
-  background: var(--color-surface);
-  color: var(--color-accent-dark);
+  background: var(--gradient-cta);
 }
 
 .about-phase-top {

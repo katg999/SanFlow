@@ -11,6 +11,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { FACILITIES, CATEGORIES } from '../data/facilities.js';
+import useReveal from '../hooks/useReveal.js';
 import './Landing.css';
 
 const FEATURES = [
@@ -74,76 +75,79 @@ function useStats() {
 
 export default function Landing() {
   const stats = useStats();
+  useReveal();
 
   return (
     <div className="landing">
       {/* Hero */}
       <section className="hero">
-        <div className="container hero-inner">
-          <div className="hero-copy">
-            <span className="eyebrow">
-              <Droplets size={14} /> WASH access platform · Kenya &amp; Uganda
-            </span>
-            <h1>
-              Clean water, safe toilets, and health services —
-              <span className="hero-highlight"> mapped near you.</span>
-            </h1>
-            <p className="hero-lead">
-              SanFlow &amp; WASHLink connects citizens, municipalities and sanitation
-              companies on one platform — so a filling toilet or a broken borehole gets
-              fixed before it becomes a health crisis.
-            </p>
-            <div className="hero-actions">
-              <Link to="/map" className="btn btn-primary">
-                <Search size={17} /> Find a service near me
-              </Link>
-              <a
-                href="https://wa.me/254700000000"
-                target="_blank"
-                rel="noreferrer"
-                className="btn btn-outline"
-              >
-                <MessageCircle size={17} /> Chat on WhatsApp
-              </a>
+        <div className="container hero-panel">
+          <div className="hero-inner">
+            <div className="hero-copy">
+              <span className="eyebrow eyebrow-inverse">
+                <Droplets size={14} /> WASH access platform · Kenya &amp; Uganda
+              </span>
+              <h1>
+                Clean water, safe toilets, and health services —
+                <span className="hero-highlight"> mapped near you.</span>
+              </h1>
+              <p className="hero-lead">
+                SanFlow &amp; WASHLink connects citizens, municipalities and sanitation
+                companies on one platform — so a filling toilet or a broken borehole gets
+                fixed before it becomes a health crisis.
+              </p>
+              <div className="hero-actions">
+                <Link to="/map" className="btn btn-primary">
+                  <Search size={17} /> Find a service near me
+                </Link>
+                <a
+                  href="https://wa.me/254700000000"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="btn btn-outline"
+                >
+                  <MessageCircle size={17} /> Chat on WhatsApp
+                </a>
+              </div>
+              <div className="hero-trust">
+                <ShieldCheck size={16} />
+                Baseline data verified with local municipalities · Crowdsourced &amp; moderated
+              </div>
             </div>
-            <div className="hero-trust">
-              <ShieldCheck size={16} />
-              Baseline data verified with local municipalities · Crowdsourced &amp; moderated
-            </div>
-          </div>
 
-          <div className="hero-visual" aria-hidden="true">
-            <div className="hero-card hero-card-main">
-              <div className="hero-card-row">
-                <span className="hero-pin hero-pin-toilet" />
-                <div>
-                  <strong>Kibera DC Public Toilet</strong>
-                  <p>240m away · Clean</p>
+            <div className="hero-visual" aria-hidden="true">
+              <div className="hero-card hero-card-main">
+                <div className="hero-card-row">
+                  <span className="hero-pin hero-pin-toilet" />
+                  <div>
+                    <strong>Kibera DC Public Toilet</strong>
+                    <p>240m away · Clean</p>
+                  </div>
+                  <span className="hero-rating">★ 4.2</span>
                 </div>
-                <span className="hero-rating">★ 4.2</span>
-              </div>
-              <div className="hero-card-row">
-                <span className="hero-pin hero-pin-water" />
-                <div>
-                  <strong>Line Saba Communal Tap</strong>
-                  <p>410m away · Operational</p>
+                <div className="hero-card-row">
+                  <span className="hero-pin hero-pin-water" />
+                  <div>
+                    <strong>Line Saba Communal Tap</strong>
+                    <p>410m away · Operational</p>
+                  </div>
+                  <span className="hero-rating">★ 4.4</span>
                 </div>
-                <span className="hero-rating">★ 4.4</span>
-              </div>
-              <div className="hero-card-row">
-                <span className="hero-pin hero-pin-health" />
-                <div>
-                  <strong>Kibera South Health Centre</strong>
-                  <p>650m away · Open now</p>
+                <div className="hero-card-row">
+                  <span className="hero-pin hero-pin-health" />
+                  <div>
+                    <strong>Kibera South Health Centre</strong>
+                    <p>650m away · Open now</p>
+                  </div>
+                  <span className="hero-rating">★ 4.1</span>
                 </div>
-                <span className="hero-rating">★ 4.1</span>
               </div>
-            </div>
-            <div className="hero-card hero-card-alert">
-              <Bell size={16} />
-              <div>
-                <strong>Alert sent</strong>
-                <p>Toi Market Toilet · Filling up</p>
+              <div className="hero-card hero-card-alert">
+                <Bell size={16} />
+                <div>
+                  <strong>Alert sent</strong>
+                  <p>Toi Market Toilet · Filling up</p>
+                </div>
               </div>
             </div>
           </div>
@@ -151,7 +155,7 @@ export default function Landing() {
       </section>
 
       {/* Stats */}
-      <section className="stats">
+      <section className="stats reveal">
         <div className="container stats-grid">
           <div className="stat-tile">
             <span className="stat-value">{stats.total}+</span>
@@ -179,7 +183,7 @@ export default function Landing() {
       {/* Features */}
       <section className="features">
         <div className="container">
-          <div className="section-heading">
+          <div className="section-heading reveal">
             <span className="eyebrow">Why SanFlow &amp; WASHLink</span>
             <h2>Built for how people actually find WASH services</h2>
             <p>
@@ -188,9 +192,13 @@ export default function Landing() {
             </p>
           </div>
           <div className="feature-grid">
-            {FEATURES.map(({ icon: Icon, title, text }) => (
-              <div className="feature-card" key={title}>
-                <div className="feature-icon">
+            {FEATURES.map(({ icon: Icon, title, text }, i) => (
+              <div
+                className="feature-card reveal"
+                style={{ transitionDelay: `${i * 80}ms` }}
+                key={title}
+              >
+                <div className="icon-badge">
                   <Icon size={20} />
                 </div>
                 <h3>{title}</h3>
@@ -204,13 +212,17 @@ export default function Landing() {
       {/* How it works */}
       <section className="how-it-works">
         <div className="container">
-          <div className="section-heading">
+          <div className="section-heading reveal">
             <span className="eyebrow">How it works</span>
             <h2>From a filling toilet to a fixed one — in four steps</h2>
           </div>
           <div className="steps-grid">
-            {STEPS.map(({ step, title, text }) => (
-              <div className="step-card" key={step}>
+            {STEPS.map(({ step, title, text }, i) => (
+              <div
+                className="step-card reveal"
+                style={{ transitionDelay: `${i * 80}ms` }}
+                key={step}
+              >
                 <span className="step-number">{step}</span>
                 <h3>{title}</h3>
                 <p>{text}</p>
@@ -222,7 +234,7 @@ export default function Landing() {
 
       {/* CTA for organizations */}
       <section className="org-cta">
-        <div className="container org-cta-inner">
+        <div className="container org-cta-inner reveal">
           <div>
             <span className="eyebrow eyebrow-inverse">
               <Building2 size={14} /> For municipalities &amp; sanitation companies
