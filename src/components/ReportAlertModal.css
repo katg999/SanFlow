@@ -1,0 +1,122 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 36, 56, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 1000;
+}
+
+.modal-card {
+  position: relative;
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 32px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--color-bg);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+}
+
+.modal-eyebrow {
+  color: var(--color-danger);
+  background: var(--color-danger-tint);
+  margin-bottom: 14px;
+}
+
+.modal-card h3 {
+  font-size: 1.15rem;
+}
+
+.modal-subtitle {
+  margin-top: 4px;
+  font-size: 0.85rem;
+}
+
+.modal-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 20px 0 16px;
+}
+
+.modal-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.modal-option.is-selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.modal-option input {
+  accent-color: var(--color-primary);
+}
+
+.modal-note-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin-bottom: 8px;
+}
+
+.modal-note {
+  width: 100%;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  resize: vertical;
+  margin-bottom: 20px;
+}
+
+.modal-note:focus,
+.modal-option:has(input:focus-visible) {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 1px;
+}
+
+.modal-success {
+  text-align: center;
+  padding: 20px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-success svg {
+  color: var(--color-warning);
+}
+
+.modal-success p {
+  font-size: 0.88rem;
+}

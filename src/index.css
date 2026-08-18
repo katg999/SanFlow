@@ -1,0 +1,214 @@
+:root {
+  /* Brand palette — derived from the SanFlow Health WASHLink mark */
+  --color-primary: #1b3a5c;
+  --color-primary-dark: #0f2438;
+  --color-primary-light: #2f5c8a;
+  --color-primary-tint: #eaf2fa;
+
+  --color-accent: #23a382;
+  --color-accent-dark: #17795f;
+  --color-accent-tint: #e5f7f1;
+
+  --color-danger: #d64545;
+  --color-danger-tint: #fbeaea;
+  --color-warning: #dd9a2b;
+  --color-warning-tint: #fbf1de;
+
+  --color-bg: #f6f9fb;
+  --color-surface: #ffffff;
+  --color-border: #e1e8ef;
+  --color-text: #16283a;
+  --color-text-muted: #57697c;
+  --color-text-inverse: #f6f9fb;
+
+  --font-heading: 'Poppins', 'Segoe UI', sans-serif;
+  --font-body: 'Inter', 'Segoe UI', sans-serif;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 3px rgba(18, 40, 63, 0.08);
+  --shadow-md: 0 8px 24px rgba(18, 40, 63, 0.10);
+  --shadow-lg: 0 16px 48px rgba(18, 40, 63, 0.16);
+
+  --container-width: 1180px;
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--color-bg);
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  color: var(--color-primary-dark);
+  line-height: 1.15;
+  margin: 0;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 13px 26px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid transparent;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-accent {
+  background: var(--color-accent);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-accent:hover {
+  background: var(--color-accent-dark);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.btn-outline:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.btn-sm {
+  padding: 9px 18px;
+  font-size: 0.85rem;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent-dark);
+  background: var(--color-accent-tint);
+  padding: 7px 14px;
+  border-radius: var(--radius-pill);
+}
+
+::selection {
+  background: var(--color-accent-tint);
+  color: var(--color-primary-dark);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-main {
+  flex: 1;
+}
+
+.app-main-full {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Leaflet overrides to match theme */
+.leaflet-container {
+  font-family: var(--font-body);
+  background: #dce8f0;
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.leaflet-popup-content {
+  margin: 0;
+  min-width: 220px;
+}
+
+.leaflet-bar a {
+  color: var(--color-primary) !important;
+}

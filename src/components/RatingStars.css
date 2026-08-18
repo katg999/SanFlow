@@ -1,0 +1,32 @@
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.82rem;
+}
+
+.rating-stars-icons {
+  display: inline-flex;
+  align-items: center;
+}
+
+.rating-star-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  display: inline-flex;
+  line-height: 0;
+}
+
+.rating-stars.is-interactive .rating-star-btn {
+  cursor: pointer;
+}
+
+.rating-value {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.rating-count {
+  color: var(--color-text-muted);
+}

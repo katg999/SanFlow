@@ -1,0 +1,365 @@
+.section-heading {
+  max-width: 620px;
+  margin: 0 auto 48px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+
+.section-heading h2 {
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+}
+
+/* ---------- Hero ---------- */
+.hero {
+  padding: 72px 0 96px;
+  background:
+    radial-gradient(60% 55% at 85% 8%, rgba(35, 163, 130, 0.10), transparent),
+    radial-gradient(50% 50% at 10% 0%, rgba(27, 58, 92, 0.08), transparent);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 56px;
+  align-items: center;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.1rem, 4.2vw, 3.2rem);
+  margin-top: 18px;
+  letter-spacing: -0.02em;
+}
+
+.hero-highlight {
+  color: var(--color-accent-dark);
+}
+
+.hero-lead {
+  margin-top: 20px;
+  font-size: 1.08rem;
+  max-width: 520px;
+  color: var(--color-text-muted);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 32px;
+  flex-wrap: wrap;
+}
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+}
+
+.hero-trust svg {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.hero-visual {
+  position: relative;
+  min-height: 360px;
+}
+
+.hero-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+}
+
+.hero-card-main {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.hero-card-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero-card-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.hero-card-row strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.92rem;
+  color: var(--color-primary-dark);
+}
+
+.hero-card-row p {
+  font-size: 0.82rem;
+  margin-top: 2px;
+}
+
+.hero-card-row > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.hero-rating {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-warning);
+  flex-shrink: 0;
+}
+
+.hero-pin {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+}
+
+.hero-pin-toilet { background: var(--color-primary); }
+.hero-pin-water { background: #2f8ad6; }
+.hero-pin-health { background: var(--color-accent); }
+
+.hero-card-alert {
+  position: absolute;
+  bottom: -20px;
+  left: -20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  background: var(--color-primary-dark);
+  color: #fff;
+}
+
+.hero-card-alert svg {
+  color: #ffd166;
+  flex-shrink: 0;
+}
+
+.hero-card-alert strong {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+}
+
+.hero-card-alert p {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 2px;
+}
+
+/* ---------- Stats ---------- */
+.stats {
+  background: var(--color-primary-dark);
+  padding: 40px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 24px;
+  text-align: center;
+}
+
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-value {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  color: #ffffff;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: rgba(246, 249, 251, 0.62);
+}
+
+/* ---------- Features ---------- */
+.features {
+  padding: 96px 0;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.feature-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 26px 22px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-tint);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.feature-card p {
+  font-size: 0.88rem;
+}
+
+/* ---------- How it works ---------- */
+.how-it-works {
+  padding: 96px 0;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.step-card {
+  padding: 8px;
+}
+
+.step-number {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.6rem;
+  color: var(--color-accent);
+  opacity: 0.55;
+  margin-bottom: 12px;
+}
+
+.step-card h3 {
+  font-size: 1rem;
+  margin-bottom: 8px;
+}
+
+.step-card p {
+  font-size: 0.88rem;
+}
+
+/* ---------- Org CTA ---------- */
+.org-cta {
+  padding: 88px 0;
+}
+
+.org-cta-inner {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  border-radius: var(--radius-lg);
+  padding: 52px;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 32px;
+  align-items: center;
+  color: #fff;
+}
+
+.org-cta-inner h2 {
+  color: #fff;
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin-top: 14px;
+}
+
+.org-cta-inner p {
+  color: rgba(246, 249, 251, 0.75);
+  margin-top: 14px;
+  max-width: 520px;
+}
+
+.eyebrow-inverse {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.org-cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.org-cta-note {
+  font-size: 0.78rem;
+  color: rgba(246, 249, 251, 0.6);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-visual {
+    min-height: 300px;
+    order: -1;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 28px;
+  }
+
+  .feature-grid,
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .org-cta-inner {
+    grid-template-columns: 1fr;
+    padding: 36px;
+  }
+}
+
+@media (max-width: 560px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .feature-grid,
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-card-alert {
+    left: 0;
+    right: 0;
+    margin: 0 16px;
+  }
+}

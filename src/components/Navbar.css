@@ -1,0 +1,115 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(246, 249, 251, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 76px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-wordmark {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.logo-wordmark strong {
+  font-weight: 700;
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar-link {
+  padding: 10px 16px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.navbar-link:hover {
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.navbar-link.is-active {
+  color: var(--color-primary);
+  background: var(--color-primary-tint);
+}
+
+.navbar-cta {
+  margin-left: 10px;
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-primary-dark);
+  padding: 6px;
+}
+
+@media (max-width: 860px) {
+  .navbar-toggle {
+    display: inline-flex;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 76px;
+    left: 0;
+    right: 0;
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 20px 20px;
+    gap: 4px;
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    box-shadow: var(--shadow-md);
+  }
+
+  .navbar-links.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .navbar-link {
+    text-align: center;
+    padding: 13px 16px;
+  }
+
+  .navbar-cta {
+    margin: 8px 0 0;
+    justify-content: center;
+  }
+}
