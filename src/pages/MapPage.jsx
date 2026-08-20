@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { Search, LocateFixed, Droplet, Trash2, HeartPulse, Bath, LayoutGrid } from 'lucide-react';
 import { CATEGORIES } from '../data/facilities.js';
 import { useFacilityStore } from '../hooks/useFacilityStore.js';
@@ -20,9 +21,10 @@ const FILTERS = [
 
 export default function MapPage() {
   const { facilities, rateFacility, reportIssue } = useFacilityStore();
+  const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
-  const [filter, setFilter] = useState('all');
-  const [selectedId, setSelectedId] = useState(null);
+  const [filter, setFilter] = useState(() => searchParams.get('category') ?? 'all');
+  const [selectedId, setSelectedId] = useState(() => searchParams.get('focus'));
   const [reportTarget, setReportTarget] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [locating, setLocating] = useState(false);

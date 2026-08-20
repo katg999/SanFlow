@@ -50,7 +50,7 @@ export default function Footer() {
       </div>
 
       <div className="container footer-bottom">
-        <span>© {year} SanFlow &amp; WASHLink. Built for proactive WASH management.</span>
+        <span>© {year} SanFlow Health WASHLink. Built for proactive WASH management.</span>
         <span className="footer-version">v1.0 · Phase 1</span>
       </div>
     </footer>

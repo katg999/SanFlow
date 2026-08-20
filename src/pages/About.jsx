@@ -33,7 +33,7 @@ export default function About() {
           <span className="eyebrow">About the platform</span>
           <h1>One WASH ecosystem for East Africa</h1>
           <p>
-            SanFlow &amp; WASHLink combines SanFlow (smart waste management) and WASHLink
+            SanFlow Health WASHLink combines SanFlow (smart waste management) and WASHLink
             (resource mapping) into a single digital infrastructure — shifting municipalities
             from reactive management to proactive, data-driven WASH service delivery.
           </p>

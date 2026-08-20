@@ -28,7 +28,7 @@ export default function Logo({ size = 36, mark = 'color', showWordmark = true, c
       </svg>
       {showWordmark && (
         <span className="logo-wordmark" style={{ color: mark === 'light' ? '#ffffff' : 'var(--color-primary-dark)' }}>
-          <strong>SanFlow</strong> WASHLink
+          <strong>SanFlow</strong> Health WASHLink
         </span>
       )}
     </span>

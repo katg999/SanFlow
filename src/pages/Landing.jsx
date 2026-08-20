@@ -92,7 +92,7 @@ export default function Landing() {
                 <span className="hero-highlight"> mapped near you.</span>
               </h1>
               <p className="hero-lead">
-                SanFlow &amp; WASHLink connects citizens, municipalities and sanitation
+                SanFlow Health WASHLink connects citizens, municipalities and sanitation
                 companies on one platform — so a filling toilet or a broken borehole gets
                 fixed before it becomes a health crisis.
               </p>
@@ -184,7 +184,7 @@ export default function Landing() {
       <section className="features">
         <div className="container">
           <div className="section-heading reveal">
-            <span className="eyebrow">Why SanFlow &amp; WASHLink</span>
+            <span className="eyebrow">Why SanFlow Health WASHLink</span>
             <h2>Built for how people actually find WASH services</h2>
             <p>
               One system for urban sanitation, rural water access and healthcare mapping —

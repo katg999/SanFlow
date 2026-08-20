@@ -1,6 +1,6 @@
-# SanFlow & WASHLink
+# SanFlow Health WASHLink
 
-Phase 1 of the SanFlow & WASHLink platform — a citizen-facing map for finding
+Phase 1 of the SanFlow Health WASHLink platform — a citizen-facing map for finding
 clean toilets, water points, waste disposal sites and health services across
 Kenya & Uganda, with community ratings and issue reporting.
 
