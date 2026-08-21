@@ -9,9 +9,9 @@
   --color-accent-dark: #17795f;
   --color-accent-tint: #e5f7f1;
 
-  --color-violet: #6d5bd0;
-  --color-violet-dark: #4f3fb0;
-  --color-violet-tint: #eeecfb;
+  --color-violet: var(--color-primary);
+  --color-violet-dark: var(--color-primary-dark);
+  --color-violet-tint: var(--color-primary-tint);
 
   --color-danger: #d64545;
   --color-danger-tint: #fbeaea;
@@ -25,9 +25,9 @@
   --color-text-muted: #57697c;
   --color-text-inverse: #f6f9fb;
 
-  --gradient-brand: linear-gradient(135deg, var(--color-violet) 0%, var(--color-primary) 55%, var(--color-accent-dark) 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(109, 91, 208, 0.12) 0%, rgba(27, 58, 92, 0.1) 55%, rgba(23, 121, 95, 0.12) 100%);
-  --gradient-cta: linear-gradient(135deg, var(--color-violet) 0%, var(--color-primary-light) 100%);
+  --gradient-brand: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(15, 36, 56, 0.12) 0%, rgba(27, 58, 92, 0.08) 55%, rgba(47, 92, 138, 0.1) 100%);
+  --gradient-cta: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
 
   --font-heading: 'Poppins', 'Segoe UI', sans-serif;
   --font-body: 'Inter', 'Segoe UI', sans-serif;
@@ -41,7 +41,7 @@
   --shadow-sm: 0 1px 3px rgba(18, 40, 63, 0.08);
   --shadow-md: 0 8px 24px rgba(18, 40, 63, 0.10);
   --shadow-lg: 0 16px 48px rgba(18, 40, 63, 0.16);
-  --shadow-glow: 0 20px 60px rgba(79, 63, 176, 0.22);
+  --shadow-glow: 0 20px 60px rgba(27, 58, 92, 0.22);
 
   --container-width: 1180px;
 
@@ -132,7 +132,7 @@ img, svg {
 
 .btn-primary:hover {
   filter: brightness(1.06);
-  box-shadow: 0 22px 64px rgba(79, 63, 176, 0.3);
+  box-shadow: 0 22px 64px rgba(27, 58, 92, 0.3);
 }
 
 .btn-accent {
@@ -190,7 +190,7 @@ img, svg {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 10px 24px rgba(79, 63, 176, 0.28);
+  box-shadow: 0 10px 24px rgba(27, 58, 92, 0.28);
 }
 
 .reveal {

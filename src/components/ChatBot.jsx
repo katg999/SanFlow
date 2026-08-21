@@ -5,9 +5,7 @@ import { useFacilityStore } from '../hooks/useFacilityStore.js';
 import { distanceKm, formatDistance, sortByProximity } from '../utils/geo.js';
 import './ChatBot.css';
 
-// Swap in a real WhatsApp Business number when one is provisioned —
-// the rest of the widget works without it.
-const WHATSAPP_NUMBER = '254700000000';
+const WHATSAPP_NUMBER = '256761267314';
 
 const NAIROBI_CENTER = { lat: -1.2921, lng: 36.8219 };
 

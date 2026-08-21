@@ -27,9 +27,13 @@ export default function FacilityCard({
       className={`facility-card ${active ? 'is-active' : ''}`}
       onClick={() => onSelect?.(facility)}
     >
-      <div className="facility-icon" style={{ background: `${category.color}1a`, color: category.color }}>
-        <Icon size={18} />
-      </div>
+      {facility.image ? (
+        <img className="facility-photo" src={facility.image} alt="" loading="lazy" />
+      ) : (
+        <div className="facility-icon" style={{ background: `${category.color}1a`, color: category.color }}>
+          <Icon size={18} />
+        </div>
+      )}
 
       <div className="facility-body">
         <div className="facility-top">

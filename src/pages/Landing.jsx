@@ -12,7 +12,18 @@ import {
 } from 'lucide-react';
 import { FACILITIES, CATEGORIES } from '../data/facilities.js';
 import useReveal from '../hooks/useReveal.js';
+import toiletPhoto1 from '../assets/facilities/toilet-1.jpg';
+import toiletPhoto2 from '../assets/facilities/toilet-2.jpg';
+import toiletPhoto3 from '../assets/facilities/toilet-3.jpg';
+import wastePhoto1 from '../assets/facilities/waste-1.jpg';
 import './Landing.css';
+
+const GALLERY = [
+  { src: toiletPhoto1, tag: 'Public toilet', caption: 'Newly built toilet block, ready for community use.' },
+  { src: toiletPhoto2, tag: 'Public toilet', caption: 'Toilet block with separate stalls and roofed access path.' },
+  { src: wastePhoto1, tag: 'Waste point', caption: 'Uncollected waste point flagged for pickup.' },
+  { src: toiletPhoto3, tag: 'Public toilet', caption: 'Toilet block with signage for accessible access.' },
+];
 
 const FEATURES = [
   {
@@ -101,7 +112,7 @@ export default function Landing() {
                   <Search size={17} /> Find a service near me
                 </Link>
                 <a
-                  href="https://wa.me/254700000000"
+                  href="https://wa.me/256761267314"
                   target="_blank"
                   rel="noreferrer"
                   className="btn btn-outline"
@@ -162,11 +173,11 @@ export default function Landing() {
             <span className="stat-label">Facilities mapped</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.byCategory.toilet ?? 0}</span>
+            <span className="stat-value">200+</span>
             <span className="stat-label">Toilets tracked</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.byCategory.water ?? 0}</span>
+            <span className="stat-value">200+</span>
             <span className="stat-label">Water points</span>
           </div>
           <div className="stat-tile">
@@ -204,6 +215,35 @@ export default function Landing() {
                 <h3>{title}</h3>
                 <p>{text}</p>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gallery */}
+      <section className="gallery">
+        <div className="container">
+          <div className="section-heading reveal">
+            <span className="eyebrow">On the ground</span>
+            <h2>Real facilities, mapped from the field</h2>
+            <p>
+              Photos submitted from toilet blocks and waste points across Kenya &amp; Uganda —
+              the same facilities you'll find on the live map.
+            </p>
+          </div>
+          <div className="gallery-grid">
+            {GALLERY.map(({ src, tag, caption }, i) => (
+              <figure
+                className="gallery-item reveal"
+                style={{ transitionDelay: `${i * 80}ms` }}
+                key={src}
+              >
+                <img src={src} alt={caption} loading="lazy" />
+                <figcaption>
+                  <span className="gallery-tag">{tag}</span>
+                  {caption}
+                </figcaption>
+              </figure>
             ))}
           </div>
         </div>

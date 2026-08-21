@@ -42,7 +42,7 @@ export default function Footer() {
         <div className="footer-col">
           <h4>Contact</h4>
           <ul className="footer-contact">
-            <li><MessageCircle size={16} /> +254 700 000 000 (WhatsApp)</li>
+            <li><MessageCircle size={16} /> +256 761 267 314 (WhatsApp)</li>
             <li><Mail size={16} /> hello@sanflow-washlink.org</li>
             <li><MapPin size={16} /> Nairobi, KE · Kampala, UG</li>
           </ul>

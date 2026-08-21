@@ -17,7 +17,7 @@ export default function Navbar() {
     <header className="navbar">
       <div className="container navbar-inner">
         <NavLink to="/" className="navbar-brand" onClick={() => setOpen(false)}>
-          <Logo size={34} />
+          <Logo size={46} />
         </NavLink>
 
         <nav className={`navbar-links ${open ? 'is-open' : ''}`}>

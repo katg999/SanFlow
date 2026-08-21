@@ -2,6 +2,14 @@
 // In Phase 2+ this is replaced by the PostgreSQL/MongoDB-backed API described
 // in the developer brief (see README "Roadmap" section).
 
+import toiletPhoto1 from '../assets/facilities/toilet-1.jpg';
+import toiletPhoto2 from '../assets/facilities/toilet-2.jpg';
+import toiletPhoto3 from '../assets/facilities/toilet-3.jpg';
+import wastePhoto1 from '../assets/facilities/waste-1.jpg';
+
+const TOILET_PHOTOS = [toiletPhoto1, toiletPhoto2, toiletPhoto3];
+const WASTE_PHOTOS = [wastePhoto1];
+
 export const CATEGORIES = {
   toilet: {
     key: 'toilet',
@@ -45,6 +53,7 @@ export const FACILITIES = [
     id: 'ke-tlt-001',
     name: 'Kibera DC Public Toilet',
     category: 'toilet',
+    image: TOILET_PHOTOS[0],
     area: 'Kibera, Nairobi',
     country: 'Kenya',
     lat: -1.3133,
@@ -59,6 +68,7 @@ export const FACILITIES = [
     id: 'ke-tlt-002',
     name: 'Toi Market Toilet Block',
     category: 'toilet',
+    image: TOILET_PHOTOS[1],
     area: 'Kibera, Nairobi',
     country: 'Kenya',
     lat: -1.3092,
@@ -73,6 +83,7 @@ export const FACILITIES = [
     id: 'ke-tlt-003',
     name: 'Mukuru Kwa Njenga Community Toilet',
     category: 'toilet',
+    image: TOILET_PHOTOS[2],
     area: 'Mukuru Slums, Nairobi',
     country: 'Kenya',
     lat: -1.3106,
@@ -87,6 +98,7 @@ export const FACILITIES = [
     id: 'ke-tlt-004',
     name: 'River Road Public Convenience',
     category: 'toilet',
+    image: TOILET_PHOTOS[0],
     area: 'River Road, Nairobi CBD',
     country: 'Kenya',
     lat: -1.2822,
@@ -101,6 +113,7 @@ export const FACILITIES = [
     id: 'ke-wst-001',
     name: 'Mukuru Waste Transfer Point',
     category: 'waste',
+    image: WASTE_PHOTOS[0],
     area: 'Mukuru Slums, Nairobi',
     country: 'Kenya',
     lat: -1.3084,
@@ -115,6 +128,7 @@ export const FACILITIES = [
     id: 'ke-wst-002',
     name: 'Kibera Soweto East Sewage Point',
     category: 'waste',
+    image: WASTE_PHOTOS[0],
     area: 'Kibera, Nairobi',
     country: 'Kenya',
     lat: -1.3151,
@@ -201,6 +215,7 @@ export const FACILITIES = [
     id: 'ug-tlt-001',
     name: 'Kisenyi Public Toilet Block',
     category: 'toilet',
+    image: TOILET_PHOTOS[1],
     area: 'Kisenyi, Kampala',
     country: 'Uganda',
     lat: 0.3103,
@@ -215,6 +230,7 @@ export const FACILITIES = [
     id: 'ug-tlt-002',
     name: 'Nakawa Market Toilet',
     category: 'toilet',
+    image: TOILET_PHOTOS[2],
     area: 'Nakawa, Kampala',
     country: 'Uganda',
     lat: 0.3324,
@@ -229,6 +245,7 @@ export const FACILITIES = [
     id: 'ug-wst-001',
     name: 'Kisenyi Sewage Disposal Point',
     category: 'waste',
+    image: WASTE_PHOTOS[0],
     area: 'Kisenyi, Kampala',
     country: 'Uganda',
     lat: 0.3086,
