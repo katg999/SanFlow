@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { MessageCircle, Mail, MapPin } from 'lucide-react';
 import Logo from './Logo.jsx';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './Footer.css';
 
 export default function Footer() {
+  const { t } = useLanguage();
   const year = new Date().getFullYear();
 
   return (
@@ -11,10 +13,7 @@ export default function Footer() {
       <div className="container footer-grid">
         <div className="footer-brand">
           <Logo size={32} mark="light" />
-          <p className="footer-tagline">
-            A unified digital infrastructure connecting citizens to water, sanitation and
-            hygiene services across East Africa.
-          </p>
+          <p className="footer-tagline">{t('footer.tagline')}</p>
           <div className="footer-badges">
             <span className="footer-badge">Kenya</span>
             <span className="footer-badge">Uganda</span>
@@ -22,36 +21,36 @@ export default function Footer() {
         </div>
 
         <div className="footer-col">
-          <h4>Product</h4>
+          <h4>{t('footer.product')}</h4>
           <ul>
-            <li><Link to="/map">Find a facility</Link></li>
-            <li><Link to="/map?report=1">Report an issue</Link></li>
-            <li><Link to="/about">How it works</Link></li>
+            <li><Link to="/map">{t('footer.findFacility')}</Link></li>
+            <li><Link to="/map?report=1">{t('footer.reportIssue')}</Link></li>
+            <li><Link to="/about">{t('footer.howItWorks')}</Link></li>
           </ul>
         </div>
 
         <div className="footer-col">
-          <h4>For Organizations</h4>
+          <h4>{t('footer.forOrgs')}</h4>
           <ul>
-            <li><a href="#admin">Municipal dashboard</a></li>
-            <li><a href="#whatsapp">WhatsApp assistant</a></li>
-            <li><a href="#data">Submit baseline data</a></li>
+            <li><a href="#admin">{t('footer.municipalDashboard')}</a></li>
+            <li><a href="#whatsapp">{t('footer.whatsappAssistant')}</a></li>
+            <li><a href="#data">{t('footer.submitData')}</a></li>
           </ul>
         </div>
 
         <div className="footer-col">
-          <h4>Contact</h4>
+          <h4>{t('footer.contact')}</h4>
           <ul className="footer-contact">
-            <li><MessageCircle size={16} /> +256 761 267 314 (WhatsApp)</li>
+            <li><MessageCircle size={16} /> +255 744 090 361 (WhatsApp)</li>
             <li><Mail size={16} /> hello@sanflow-washlink.org</li>
-            <li><MapPin size={16} /> Nairobi, KE · Kampala, UG</li>
+            <li><MapPin size={16} /> {t('footer.addressLine')}</li>
           </ul>
         </div>
       </div>
 
       <div className="container footer-bottom">
-        <span>© {year} SanFlow Health WASHLink. Built for proactive WASH management.</span>
-        <span className="footer-version">v1.0 · Phase 1</span>
+        <span>{t('footer.copyright', { year })}</span>
+        <span className="footer-version">{t('footer.version')}</span>
       </div>
     </footer>
   );

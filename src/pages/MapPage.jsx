@@ -1,26 +1,27 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Search, LocateFixed, Droplet, Trash2, HeartPulse, Bath, LayoutGrid } from 'lucide-react';
-import { CATEGORIES } from '../data/facilities.js';
 import { useFacilityStore } from '../hooks/useFacilityStore.js';
 import { distanceKm, sortByProximity } from '../utils/geo.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import MapView from '../components/MapView.jsx';
 import FacilityCard from '../components/FacilityCard.jsx';
 import ReportAlertModal from '../components/ReportAlertModal.jsx';
 import './MapPage.css';
 
-const NAIROBI_CENTER = { lat: -1.2921, lng: 36.8219 };
+const KAMPALA_CENTER = { lat: 0.3136, lng: 32.5811 };
 
-const FILTERS = [
-  { key: 'all', label: 'All', icon: LayoutGrid },
-  { key: 'toilet', label: CATEGORIES.toilet.label, icon: Bath },
-  { key: 'water', label: CATEGORIES.water.label, icon: Droplet },
-  { key: 'waste', label: CATEGORIES.waste.label, icon: Trash2 },
-  { key: 'health', label: CATEGORIES.health.label, icon: HeartPulse },
+const FILTER_KEYS = [
+  { key: 'all', icon: LayoutGrid },
+  { key: 'toilet', icon: Bath },
+  { key: 'water', icon: Droplet },
+  { key: 'waste', icon: Trash2 },
+  { key: 'health', icon: HeartPulse },
 ];
 
 export default function MapPage() {
   const { facilities, rateFacility, reportIssue } = useFacilityStore();
+  const { t } = useLanguage();
   const [searchParams] = useSearchParams();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState(() => searchParams.get('category') ?? 'all');
@@ -29,7 +30,7 @@ export default function MapPage() {
   const [userLocation, setUserLocation] = useState(null);
   const [locating, setLocating] = useState(false);
 
-  const origin = userLocation ?? NAIROBI_CENTER;
+  const origin = userLocation ?? KAMPALA_CENTER;
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -74,14 +75,14 @@ export default function MapPage() {
     <div className="map-page">
       <aside className="map-sidebar">
         <div className="map-sidebar-header">
-          <h2>Find a service near you</h2>
-          <p>Results are sorted by distance{userLocation ? ' from your location' : ' from Nairobi CBD'}.</p>
+          <h2>{t('map.title')}</h2>
+          <p>{userLocation ? t('map.subtitleWithLocation') : t('map.subtitleDefault')}</p>
 
           <div className="map-search">
             <Search size={16} />
             <input
               type="text"
-              placeholder='Try "toilet near Kibera" or "borehole"'
+              placeholder={t('map.searchPlaceholder')}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -89,18 +90,18 @@ export default function MapPage() {
 
           <button type="button" className="map-locate-btn" onClick={handleLocate}>
             <LocateFixed size={15} />
-            {locating ? 'Locating…' : userLocation ? 'Using your location' : 'Use my location'}
+            {locating ? t('map.locating') : userLocation ? t('map.usingLocation') : t('map.locate')}
           </button>
 
           <div className="map-filters">
-            {FILTERS.map(({ key, label, icon: Icon }) => (
+            {FILTER_KEYS.map(({ key, icon: Icon }) => (
               <button
                 key={key}
                 type="button"
                 className={`map-filter-chip ${filter === key ? 'is-active' : ''}`}
                 onClick={() => setFilter(key)}
               >
-                <Icon size={13} /> {label}
+                <Icon size={13} /> {t(`categories.${key}`)}
               </button>
             ))}
           </div>
@@ -108,13 +109,14 @@ export default function MapPage() {
 
         <div className="map-sidebar-list">
           {filtered.length === 0 && (
-            <p className="map-empty">No facilities match that search yet.</p>
+            <p className="map-empty">{t('map.empty')}</p>
           )}
           {filtered.map((facility) => (
             <FacilityCard
               key={facility.id}
               facility={facility}
               distanceKm={distanceKm(origin, facility)}
+              showEta={Boolean(userLocation)}
               active={facility.id === selectedId}
               onSelect={(f) => setSelectedId(f.id)}
               onReport={setReportTarget}

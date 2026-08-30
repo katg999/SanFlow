@@ -1,6 +1,7 @@
-import { Droplet, Trash2, HeartPulse, Bath, Clock, TriangleAlert } from 'lucide-react';
+import { Droplet, Trash2, HeartPulse, Bath, Clock, TriangleAlert, Footprints, Car } from 'lucide-react';
 import { CATEGORIES } from '../data/facilities.js';
-import { formatDistance } from '../utils/geo.js';
+import { formatDistance, estimateEta } from '../utils/geo.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import RatingStars from './RatingStars.jsx';
 import './FacilityCard.css';
@@ -15,12 +16,15 @@ const ICONS = {
 export default function FacilityCard({
   facility,
   distanceKm,
+  showEta = false,
   active = false,
   onSelect,
   onReport,
 }) {
+  const { t } = useLanguage();
   const Icon = ICONS[facility.category] ?? Droplet;
   const category = CATEGORIES[facility.category];
+  const eta = showEta ? estimateEta(distanceKm) : null;
 
   return (
     <article
@@ -49,6 +53,14 @@ export default function FacilityCard({
           <RatingStars value={facility.rating} count={facility.ratingsCount} size={13} />
         </div>
 
+        {eta && (
+          <p className="facility-eta">
+            <Footprints size={12} /> {t('map.walk', { min: eta.walkMin })}
+            <span className="facility-eta-sep">·</span>
+            <Car size={12} /> {t('map.drive', { min: eta.driveMin })}
+          </p>
+        )}
+
         {facility.hours && (
           <p className="facility-hours">
             <Clock size={12} /> {facility.hours}
@@ -63,7 +75,7 @@ export default function FacilityCard({
             onReport?.(facility);
           }}
         >
-          <TriangleAlert size={13} /> Report issue
+          <TriangleAlert size={13} /> {t('map.reportIssue')}
         </button>
       </div>
     </article>

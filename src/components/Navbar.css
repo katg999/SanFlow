@@ -70,6 +70,25 @@
   margin-left: 10px;
 }
 
+button.navbar-link {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar-hi {
+  cursor: default;
+  color: var(--color-primary-dark);
+}
+
+.navbar-hi:hover {
+  background: none;
+}
+
 .navbar-toggle {
   display: none;
   background: none;

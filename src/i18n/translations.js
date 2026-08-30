@@ -1,0 +1,323 @@
+export const LANGUAGES = {
+  en: { code: 'en', label: 'English' },
+  sw: { code: 'sw', label: 'Kiswahili' },
+};
+
+export const translations = {
+  en: {
+    nav: {
+      home: 'Home',
+      findServices: 'Find Services',
+      about: 'About',
+      openMap: 'Open Map',
+      login: 'Log in',
+      register: 'Register',
+      logout: 'Log out',
+      hi: 'Hi, {{name}}',
+    },
+    footer: {
+      tagline:
+        'A unified digital infrastructure connecting citizens to water, sanitation and hygiene services across East Africa.',
+      product: 'Product',
+      findFacility: 'Find a facility',
+      reportIssue: 'Report an issue',
+      howItWorks: 'How it works',
+      forOrgs: 'For Organizations',
+      municipalDashboard: 'Municipal dashboard',
+      whatsappAssistant: 'WhatsApp assistant',
+      submitData: 'Submit baseline data',
+      contact: 'Contact',
+      addressLine: 'Nairobi, KE · Kampala, UG',
+      copyright: '© {{year}} SanFlow Health WASHLink. Built for proactive WASH management.',
+      version: 'v1.0 · Phase 1',
+    },
+    categories: {
+      all: 'All',
+      toilet: 'Public Toilets',
+      water: 'Water Points',
+      waste: 'Waste Disposal',
+      health: 'Health Services',
+    },
+    status: {
+      clean: 'Clean',
+      operational: 'Operational',
+      open: 'Open',
+      filling: 'Filling Up',
+      full: 'Full',
+      broken: 'Broken',
+      closed: 'Closed',
+    },
+    map: {
+      title: 'Find a service near you',
+      subtitleWithLocation: 'Results are sorted by distance from your location.',
+      subtitleDefault: 'Results are sorted by distance from Kampala CBD.',
+      searchPlaceholder: 'Try "toilet near Kisenyi" or "borehole"',
+      locate: 'Use my location',
+      locating: 'Locating…',
+      usingLocation: 'Using your location',
+      empty: 'No facilities match that search yet.',
+      reportIssue: 'Report issue',
+      directions: 'Directions',
+      rateThis: 'Rate this place:',
+      walk: '{{min}} min walk',
+      drive: '{{min}} min drive',
+    },
+    auth: {
+      loginTitle: 'Log in',
+      registerTitle: 'Create your account',
+      name: 'Full name',
+      email: 'Email',
+      password: 'Password',
+      loginSubmit: 'Log in',
+      registerSubmit: 'Create account',
+      noAccount: "Don't have an account?",
+      haveAccount: 'Already have an account?',
+      registerLink: 'Register',
+      loginLink: 'Log in',
+      demoNotice:
+        'Demo accounts only — stored in this browser, not on a server. Nothing here is a real login yet.',
+      invalidCredentials: 'Incorrect email or password.',
+      emailTaken: 'An account with that email already exists.',
+      welcomeBack: 'Welcome back, {{name}}!',
+      accountCreated: 'Account created — welcome, {{name}}!',
+    },
+    landing: {
+      eyebrow: 'WASH access platform · Kenya & Uganda',
+      heroHeading: 'Clean water, safe toilets, and health services —',
+      heroHighlight: 'mapped near you.',
+      heroLead:
+        'SanFlow Health WASHLink connects citizens, municipalities and sanitation companies on one platform — so a filling toilet or a broken borehole gets fixed before it becomes a health crisis.',
+      findService: 'Find a service near me',
+      chatWhatsapp: 'Chat on WhatsApp',
+      heroTrust: 'Baseline data verified with local municipalities · Crowdsourced & moderated',
+      statFacilities: 'Facilities mapped',
+      statToilets: 'Toilets tracked',
+      statWater: 'Water points',
+      statCountries: 'Countries live',
+      statRating: 'Avg. community rating',
+      featuresEyebrow: 'Why SanFlow Health WASHLink',
+      featuresHeading: 'Built for how people actually find WASH services',
+      featuresLead:
+        'One system for urban sanitation, rural water access and healthcare mapping — accessible whether you have a smartphone, a feature phone, or neither.',
+      feature1Title: 'One live map',
+      feature1Text:
+        'Public toilets, waste pits, water points and clinics — plotted together so you never have to guess where to go.',
+      feature2Title: 'Community ratings',
+      feature2Text:
+        'Every facility carries a star rating from real users, so you know what "clean" and "safe" actually mean before you arrive.',
+      feature3Title: 'Real-time alerts',
+      feature3Text:
+        'Report a toilet filling up or a borehole breaking down in two taps. Municipalities see it the moment you send it.',
+      feature4Title: 'Works over WhatsApp',
+      feature4Text:
+        'No smartphone or data bundle? Message our WhatsApp assistant to search, get directions and report issues. (Phase 2)',
+      galleryEyebrow: 'On the ground',
+      galleryHeading: 'Real facilities, mapped from the field',
+      galleryLead:
+        "Photos submitted from toilet blocks and waste points across Kenya & Uganda — the same facilities you'll find on the live map.",
+      howEyebrow: 'How it works',
+      howHeading: 'From a filling toilet to a fixed one — in four steps',
+      step1Title: 'Search or browse the map',
+      step1Text:
+        'Ask for the nearest clean toilet, water source or clinic — results are always sorted by distance from you.',
+      step2Title: 'Check status & ratings',
+      step2Text:
+        'See live status — clean, filling, full or broken — plus community star ratings before you make the trip.',
+      step3Title: 'Report what you see',
+      step3Text: 'Flag a filling toilet or a broken borehole. Your report goes straight into the facility record.',
+      step4Title: 'Municipalities respond',
+      step4Text: 'Issues open longer than 24 hours auto-escalate to the County Health Officer for action.',
+      orgEyebrow: 'For municipalities & sanitation companies',
+      orgHeading: 'Turn citizen reports into a proactive collection schedule',
+      orgText:
+        'The admin dashboard gives county officials and sewage companies a live view of filling toilets, broken boreholes and sanitation coverage gaps — with automatic escalation when an issue sits open for more than 24 hours.',
+      orgCta: 'Request dashboard access',
+      orgNote: 'Admin dashboard ships in Phase 3',
+    },
+    chatbot: {
+      greeting:
+        "Hi! I'm the SanFlow Health WASHLink assistant. I can help you find a clean toilet, water point, waste site or health service nearby, or log a report on one. What do you need?",
+      menuFind: '🔍 Find a facility',
+      menuReport: '⚠️ Report an issue',
+      menuAbout: 'ℹ️ About this site',
+      menuContact: '💬 Talk to a person',
+      anythingElse: 'Anything else I can help with?',
+      askWhatLooking: 'What are you looking for?',
+      askWhichReport: 'Which kind of facility do you want to report on?',
+      aboutText:
+        'SanFlow Health WASHLink is a citizen-facing map for finding clean toilets, water points, waste disposal sites and health services across Kenya & Uganda — with community ratings and issue reporting. Check the "About" page for the full roadmap.',
+      contactText: 'You can reach the team directly on WhatsApp:',
+      openWhatsapp: '💬 Open WhatsApp',
+      searchNearPrompt: 'Should I search near your current location, or a specific area?',
+      useMyLocation: '📍 Use my location',
+      kampalaDefault: '🏙️ Kampala CBD (default)',
+      fallbackReply: "I didn't quite catch that — here's what I can help with:",
+    },
+  },
+  sw: {
+    nav: {
+      home: 'Nyumbani',
+      findServices: 'Tafuta Huduma',
+      about: 'Kuhusu',
+      openMap: 'Fungua Ramani',
+      login: 'Ingia',
+      register: 'Jisajili',
+      logout: 'Toka',
+      hi: 'Habari, {{name}}',
+    },
+    footer: {
+      tagline:
+        'Mfumo mmoja wa kidijitali unaounganisha wananchi na huduma za maji, usafi wa mazingira na usafi binafsi katika Afrika Mashariki.',
+      product: 'Bidhaa',
+      findFacility: 'Tafuta huduma',
+      reportIssue: 'Ripoti tatizo',
+      howItWorks: 'Jinsi inavyofanya kazi',
+      forOrgs: 'Kwa Mashirika',
+      municipalDashboard: 'Dashibodi ya manispaa',
+      whatsappAssistant: 'Msaidizi wa WhatsApp',
+      submitData: 'Wasilisha data ya msingi',
+      contact: 'Mawasiliano',
+      addressLine: 'Nairobi, KE · Kampala, UG',
+      copyright: '© {{year}} SanFlow Health WASHLink. Imetengenezwa kwa usimamizi bora wa WASH.',
+      version: 'v1.0 · Awamu ya 1',
+    },
+    categories: {
+      all: 'Zote',
+      toilet: 'Vyoo vya Umma',
+      water: 'Vituo vya Maji',
+      waste: 'Utupaji Taka',
+      health: 'Huduma za Afya',
+    },
+    status: {
+      clean: 'Safi',
+      operational: 'Inafanya kazi',
+      open: 'Wazi',
+      filling: 'Inajaa',
+      full: 'Imejaa',
+      broken: 'Imeharibika',
+      closed: 'Imefungwa',
+    },
+    map: {
+      title: 'Tafuta huduma karibu nawe',
+      subtitleWithLocation: 'Matokeo yamepangwa kwa umbali kutoka mahali ulipo.',
+      subtitleDefault: 'Matokeo yamepangwa kwa umbali kutoka Kampala CBD.',
+      searchPlaceholder: 'Jaribu "choo karibu na Kisenyi" au "kisima"',
+      locate: 'Tumia mahali nilipo',
+      locating: 'Inatafuta mahali...',
+      usingLocation: 'Inatumia mahali ulipo',
+      empty: 'Hakuna huduma zinazolingana na utafutaji huo bado.',
+      reportIssue: 'Ripoti tatizo',
+      directions: 'Njia',
+      rateThis: 'Kadiria mahali hapa:',
+      walk: 'Dakika {{min}} kwa miguu',
+      drive: 'Dakika {{min}} kwa gari',
+    },
+    auth: {
+      loginTitle: 'Ingia',
+      registerTitle: 'Fungua akaunti yako',
+      name: 'Jina kamili',
+      email: 'Barua pepe',
+      password: 'Nenosiri',
+      loginSubmit: 'Ingia',
+      registerSubmit: 'Fungua akaunti',
+      noAccount: 'Huna akaunti?',
+      haveAccount: 'Una akaunti tayari?',
+      registerLink: 'Jisajili',
+      loginLink: 'Ingia',
+      demoNotice:
+        'Akaunti za majaribio pekee — zinahifadhiwa kwenye kivinjari hiki, si kwenye seva. Hii si mfumo halisi wa kuingia bado.',
+      invalidCredentials: 'Barua pepe au nenosiri sio sahihi.',
+      emailTaken: 'Akaunti yenye barua pepe hiyo tayari ipo.',
+      welcomeBack: 'Karibu tena, {{name}}!',
+      accountCreated: 'Akaunti imeundwa — karibu, {{name}}!',
+    },
+    landing: {
+      eyebrow: 'Jukwaa la huduma za WASH · Kenya na Uganda',
+      heroHeading: 'Maji safi, vyoo salama, na huduma za afya —',
+      heroHighlight: 'zimeorodheshwa karibu nawe.',
+      heroLead:
+        'SanFlow Health WASHLink inaunganisha wananchi, manispaa na kampuni za usafi wa mazingira kwenye jukwaa moja — ili choo kinachojaa au kisima kilichoharibika kirekebishwe kabla hakijawa janga la afya.',
+      findService: 'Tafuta huduma karibu nami',
+      chatWhatsapp: 'Ongea kwenye WhatsApp',
+      heroTrust: 'Data ya msingi imethibitishwa na manispaa za mtaani · Imekusanywa na kudhibitiwa na jamii',
+      statFacilities: 'Huduma zilizoorodheshwa',
+      statToilets: 'Vyoo vinavyofuatiliwa',
+      statWater: 'Vituo vya maji',
+      statCountries: 'Nchi zinazofanya kazi',
+      statRating: 'Wastani wa tathmini ya jamii',
+      featuresEyebrow: 'Kwa nini SanFlow Health WASHLink',
+      featuresHeading: 'Imejengwa kwa jinsi watu wanavyotafuta huduma za WASH',
+      featuresLead:
+        'Mfumo mmoja kwa usafi wa mazingira mjini, upatikanaji wa maji vijijini na uorodheshaji wa huduma za afya — unaopatikana iwe una simu janja, simu ya kawaida, au huna simu kabisa.',
+      feature1Title: 'Ramani moja hai',
+      feature1Text:
+        'Vyoo vya umma, mashimo ya taka, vituo vya maji na kliniki — vimeorodheshwa pamoja ili usihitaji kubahatisha uende wapi.',
+      feature2Title: 'Tathmini za jamii',
+      feature2Text:
+        'Kila huduma ina tathmini ya nyota kutoka kwa watumiaji halisi, ili ujue "safi" na "salama" vinamaanisha nini kabla hujafika.',
+      feature3Title: 'Arifa za wakati halisi',
+      feature3Text:
+        'Ripoti choo kinachojaa au kisima kilichoharibika kwa mibonyezo miwili. Manispaa wanaona mara unapotuma.',
+      feature4Title: 'Inafanya kazi kupitia WhatsApp',
+      feature4Text:
+        'Huna simu janja au bando la data? Tuma ujumbe kwa msaidizi wetu wa WhatsApp kutafuta, kupata njia na kuripoti matatizo. (Awamu ya 2)',
+      galleryEyebrow: 'Kutoka uwandani',
+      galleryHeading: 'Huduma halisi, zilizoorodheshwa kutoka uwandani',
+      galleryLead:
+        'Picha zilizowasilishwa kutoka vyoo na sehemu za taka kote Kenya na Uganda — huduma zilezile utakazoziona kwenye ramani hai.',
+      howEyebrow: 'Jinsi inavyofanya kazi',
+      howHeading: 'Kutoka choo kinachojaa hadi kilichorekebishwa — kwa hatua nne',
+      step1Title: 'Tafuta au vinjari ramani',
+      step1Text:
+        'Uliza kuhusu choo safi, chanzo cha maji au kliniki iliyo karibu — matokeo yamepangwa kwa umbali kutoka ulipo.',
+      step2Title: 'Angalia hali na tathmini',
+      step2Text:
+        'Ona hali ya sasa — safi, inajaa, imejaa au imeharibika — pamoja na tathmini za jamii kabla ya kufunga safari.',
+      step3Title: 'Ripoti unachokiona',
+      step3Text: 'Ripoti choo kinachojaa au kisima kilichoharibika. Ripoti yako inaingia moja kwa moja kwenye rekodi ya huduma.',
+      step4Title: 'Manispaa hujibu',
+      step4Text: 'Matatizo yaliyo wazi kwa zaidi ya saa 24 huongezwa kiotomatiki kwa Afisa Afya wa Wilaya kwa hatua.',
+      orgEyebrow: 'Kwa manispaa na kampuni za usafi wa mazingira',
+      orgHeading: 'Geuza ripoti za wananchi kuwa ratiba ya ukusanyaji makini',
+      orgText:
+        'Dashibodi ya usimamizi inawapa maafisa wa wilaya na kampuni za maji taka mwonekano wa moja kwa moja wa vyoo vinavyojaa, visima vilivyoharibika na mapungufu ya usafi wa mazingira — na kuongeza kiotomatiki tatizo lililo wazi kwa zaidi ya saa 24.',
+      orgCta: 'Omba ufikiaji wa dashibodi',
+      orgNote: 'Dashibodi ya usimamizi itapatikana Awamu ya 3',
+    },
+    chatbot: {
+      greeting:
+        'Habari! Mimi ni msaidizi wa SanFlow Health WASHLink. Ninaweza kukusaidia kupata choo safi, kituo cha maji, sehemu ya taka au huduma ya afya karibu nawe, au kuripoti tatizo. Unahitaji nini?',
+      menuFind: '🔍 Tafuta huduma',
+      menuReport: '⚠️ Ripoti tatizo',
+      menuAbout: 'ℹ️ Kuhusu tovuti hii',
+      menuContact: '💬 Ongea na mtu',
+      anythingElse: 'Kuna kitu kingine ninachoweza kusaidia?',
+      askWhatLooking: 'Unatafuta nini?',
+      askWhichReport: 'Ni aina gani ya huduma unayotaka kuripoti?',
+      aboutText:
+        'SanFlow Health WASHLink ni ramani ya wananchi ya kupata vyoo safi, vituo vya maji, sehemu za utupaji taka na huduma za afya katika Kenya na Uganda — ikiwa na tathmini za jamii na uripoti wa matatizo. Angalia ukurasa wa "Kuhusu" kwa mpango kamili.',
+      contactText: 'Unaweza kuwasiliana na timu moja kwa moja kupitia WhatsApp:',
+      openWhatsapp: '💬 Fungua WhatsApp',
+      searchNearPrompt: 'Nitafute karibu na mahali ulipo sasa, au eneo maalum?',
+      useMyLocation: '📍 Tumia mahali nilipo',
+      kampalaDefault: '🏙️ Kampala CBD (chaguomsingi)',
+      fallbackReply: 'Sikuelewa vizuri — hivi ndivyo ninavyoweza kusaidia:',
+    },
+  },
+};
+
+export function translate(lang, path, vars) {
+  const dict = translations[lang] ?? translations.en;
+  const fallback = translations.en;
+  const parts = path.split('.');
+  let node = parts.reduce((acc, key) => acc?.[key], dict);
+  if (node === undefined) {
+    node = parts.reduce((acc, key) => acc?.[key], fallback);
+  }
+  if (typeof node !== 'string') return path;
+  if (!vars) return node;
+  return Object.entries(vars).reduce(
+    (str, [key, value]) => str.replaceAll(`{{${key}}}`, value),
+    node
+  );
+}

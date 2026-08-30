@@ -3,17 +3,18 @@ import { MessageCircle, X, Send, ExternalLink, MapPin } from 'lucide-react';
 import { CATEGORIES, STATUS } from '../data/facilities.js';
 import { useFacilityStore } from '../hooks/useFacilityStore.js';
 import { distanceKm, formatDistance, sortByProximity } from '../utils/geo.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './ChatBot.css';
 
-const WHATSAPP_NUMBER = '256761267314';
+const WHATSAPP_NUMBER = '255744090361';
 
-const NAIROBI_CENTER = { lat: -1.2921, lng: 36.8219 };
+const KAMPALA_CENTER = { lat: 0.3136, lng: 32.5811 };
 
 const CATEGORY_KEYWORDS = {
-  toilet: ['toilet', 'latrine', 'washroom', 'bathroom', 'loo'],
-  water: ['water', 'borehole', 'tap', 'well'],
-  waste: ['waste', 'garbage', 'trash', 'rubbish', 'sewage', 'skip'],
-  health: ['health', 'clinic', 'pharmacy', 'hospital', 'medicine'],
+  toilet: ['toilet', 'latrine', 'washroom', 'bathroom', 'loo', 'choo'],
+  water: ['water', 'borehole', 'tap', 'well', 'maji'],
+  waste: ['waste', 'garbage', 'trash', 'rubbish', 'sewage', 'skip', 'taka'],
+  health: ['health', 'clinic', 'pharmacy', 'hospital', 'medicine', 'afya'],
 };
 
 const REPORTABLE_STATUS = {
@@ -26,29 +27,16 @@ const REPORTABLE_STATUS = {
 let uid = 0;
 const nextId = () => `m${++uid}`;
 
-function greetingMessage() {
-  return {
-    id: nextId(),
-    from: 'bot',
-    text:
-      "Hi! I'm the SanFlow Health WASHLink assistant. I can help you find a clean toilet, water point, waste site or health service nearby, or log a report on one. What do you need?",
-    quickReplies: [
-      { label: '🔍 Find a facility', value: 'find' },
-      { label: '⚠️ Report an issue', value: 'report' },
-      { label: 'ℹ️ About this site', value: 'about' },
-      { label: '💬 Talk to a person', value: 'contact' },
-    ],
-  };
+function menuQuickReplies(t) {
+  return [
+    { label: t('chatbot.menuFind'), value: 'find' },
+    { label: t('chatbot.menuReport'), value: 'report' },
+    { label: t('chatbot.menuAbout'), value: 'about' },
+    { label: t('chatbot.menuContact'), value: 'contact' },
+  ];
 }
 
-function detectCategory(text) {
-  const q = text.toLowerCase();
-  return Object.keys(CATEGORY_KEYWORDS).find((key) =>
-    CATEGORY_KEYWORDS[key].some((kw) => q.includes(kw))
-  );
-}
-
-function FacilityResult({ facility, origin, onReportThis }) {
+function FacilityResult({ facility, origin, onReportThis, t }) {
   const status = STATUS[facility.status];
   const mapsUrl = `https://www.google.com/maps?q=${facility.lat},${facility.lng}`;
   const siteUrl = `/map?focus=${facility.id}&category=${facility.category}`;
@@ -57,7 +45,7 @@ function FacilityResult({ facility, origin, onReportThis }) {
     <div className="cb-facility">
       <div className="cb-facility-top">
         <strong>{facility.name}</strong>
-        <span className={`cb-status cb-status-${status.tone}`}>{status.label}</span>
+        <span className={`cb-status cb-status-${status.tone}`}>{t(`status.${facility.status}`)}</span>
       </div>
       <p className="cb-facility-meta">
         {facility.area} · {formatDistance(distanceKm(origin, facility))} away
@@ -79,8 +67,16 @@ function FacilityResult({ facility, origin, onReportThis }) {
 
 export default function ChatBot() {
   const { facilities, reportIssue } = useFacilityStore();
+  const { t } = useLanguage();
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([greetingMessage()]);
+  const [messages, setMessages] = useState(() => [
+    {
+      id: nextId(),
+      from: 'bot',
+      text: t('chatbot.greeting'),
+      quickReplies: menuQuickReplies(t),
+    },
+  ]);
   const [step, setStep] = useState('menu');
   const [draft, setDraft] = useState({});
   const [input, setInput] = useState('');
@@ -103,20 +99,13 @@ export default function ChatBot() {
   const goToMenu = () => {
     setStep('menu');
     setDraft({});
-    pushBot('Anything else I can help with?', {
-      quickReplies: [
-        { label: '🔍 Find a facility', value: 'find' },
-        { label: '⚠️ Report an issue', value: 'report' },
-        { label: 'ℹ️ About this site', value: 'about' },
-        { label: '💬 Talk to a person', value: 'contact' },
-      ],
-    });
+    pushBot(t('chatbot.anythingElse'), { quickReplies: menuQuickReplies(t) });
   };
 
   const askCategory = (mode) => {
     setStep(`${mode}:category`);
-    pushBot(mode === 'find' ? 'What are you looking for?' : 'Which kind of facility do you want to report on?', {
-      quickReplies: Object.values(CATEGORIES).map((c) => ({ label: c.label, value: c.key })),
+    pushBot(mode === 'find' ? t('chatbot.askWhatLooking') : t('chatbot.askWhichReport'), {
+      quickReplies: Object.keys(CATEGORIES).map((key) => ({ label: t(`categories.${key}`), value: key })),
     });
   };
 
@@ -127,9 +116,9 @@ export default function ChatBot() {
     ).slice(0, 3);
 
     if (matches.length === 0) {
-      pushBot(`I couldn't find any ${CATEGORIES[category].label.toLowerCase()} in the seed data yet.`);
+      pushBot(`I couldn't find any ${t(`categories.${category}`).toLowerCase()} in the seed data yet.`);
     } else {
-      pushBot(`Here are the closest ${CATEGORIES[category].label.toLowerCase()} ${originLabel}:`, {
+      pushBot(`Here are the closest ${t(`categories.${category}`).toLowerCase()} ${originLabel}:`, {
         facilityResults: matches.map((f) => ({ facility: f, origin })),
       });
     }
@@ -156,7 +145,7 @@ export default function ChatBot() {
     setStep('report:status');
     const statuses = REPORTABLE_STATUS[facility.category] ?? [];
     pushBot(`Got it — what's the current status of "${facility.name}"?`, {
-      quickReplies: statuses.map((s) => ({ label: STATUS[s].label, value: s })),
+      quickReplies: statuses.map((s) => ({ label: t(`status.${s}`), value: s })),
     });
   };
 
@@ -165,7 +154,7 @@ export default function ChatBot() {
     if (facility) {
       reportIssue(facility.id, statusKey, 'Reported via site assistant');
       pushBot(
-        `Thanks! I've logged "${facility.name}" as ${STATUS[statusKey].label.toLowerCase()}. The community and site visitors will see this update.`
+        `Thanks! I've logged "${facility.name}" as ${t(`status.${statusKey}`).toLowerCase()}. The community and site visitors will see this update.`
       );
     }
     setTimeout(goToMenu, 300);
@@ -178,16 +167,14 @@ export default function ChatBot() {
       if (value === 'find') return askCategory('find');
       if (value === 'report') return askCategory('report');
       if (value === 'about') {
-        pushBot(
-          'SanFlow Health WASHLink is a citizen-facing map for finding clean toilets, water points, waste disposal sites and health services across Kenya & Uganda — with community ratings and issue reporting. Check the "About" page for the full roadmap.'
-        );
+        pushBot(t('chatbot.aboutText'));
         return setTimeout(goToMenu, 300);
       }
       if (value === 'contact') {
         const text = encodeURIComponent("Hi, I'd like help finding a WASH facility.");
-        pushBot('You can reach the team directly on WhatsApp:', {
+        pushBot(t('chatbot.contactText'), {
           quickReplies: [
-            { label: '💬 Open WhatsApp', value: `wa:${text}` },
+            { label: t('chatbot.openWhatsapp'), value: `wa:${text}` },
           ],
         });
         return;
@@ -202,10 +189,10 @@ export default function ChatBot() {
     if (step === 'find:category') {
       setDraft({ category: value });
       setStep('find:location');
-      pushBot('Should I search near your current location, or a specific area?', {
+      pushBot(t('chatbot.searchNearPrompt'), {
         quickReplies: [
-          { label: '📍 Use my location', value: 'geo' },
-          { label: '🏙️ Nairobi CBD (default)', value: 'default' },
+          { label: t('chatbot.useMyLocation'), value: 'geo' },
+          { label: t('chatbot.kampalaDefault'), value: 'default' },
         ],
       });
       return;
@@ -214,8 +201,8 @@ export default function ChatBot() {
     if (step === 'find:location') {
       if (value === 'geo') {
         if (!navigator.geolocation) {
-          pushBot("This browser doesn't support location sharing — using Nairobi CBD instead.");
-          return runFindResults(draft.category, NAIROBI_CENTER, 'from Nairobi CBD');
+          pushBot("This browser doesn't support location sharing — using Kampala CBD instead.");
+          return runFindResults(draft.category, KAMPALA_CENTER, 'from Kampala CBD');
         }
         pushBot('Locating you…');
         navigator.geolocation.getCurrentPosition(
@@ -224,14 +211,14 @@ export default function ChatBot() {
             runFindResults(draft.category, origin, 'near you');
           },
           () => {
-            pushBot("Couldn't get your location — using Nairobi CBD instead.");
-            runFindResults(draft.category, NAIROBI_CENTER, 'from Nairobi CBD');
+            pushBot("Couldn't get your location — using Kampala CBD instead.");
+            runFindResults(draft.category, KAMPALA_CENTER, 'from Kampala CBD');
           },
           { enableHighAccuracy: true, timeout: 8000 }
         );
         return;
       }
-      return runFindResults(draft.category, NAIROBI_CENTER, 'from Nairobi CBD');
+      return runFindResults(draft.category, KAMPALA_CENTER, 'from Kampala CBD');
     }
 
     if (step === 'report:category') {
@@ -265,8 +252,8 @@ export default function ChatBot() {
       const areaMatches = facilities.filter(
         (f) => f.category === draft.category && (f.area.toLowerCase().includes(q) || f.country.toLowerCase().includes(q))
       );
-      const origin = areaMatches[0] ?? NAIROBI_CENTER;
-      return runFindResults(draft.category, origin, areaMatches[0] ? `near "${text}"` : `(couldn't match "${text}", showing from Nairobi CBD)`);
+      const origin = areaMatches[0] ?? KAMPALA_CENTER;
+      return runFindResults(draft.category, origin, areaMatches[0] ? `near "${text}"` : `(couldn't match "${text}", showing from Kampala CBD)`);
     }
 
     if (step === 'report:pick') {
@@ -284,31 +271,31 @@ export default function ChatBot() {
     // Free-text at the top level: try to detect intent.
     const category = detectCategory(text);
     if (/report|broke|broken|full|dirty/i.test(text) && category) {
-      pushBot(`Sounds like you want to report a ${CATEGORIES[category].label.toLowerCase()} issue.`);
+      pushBot(`Sounds like you want to report a ${t(`categories.${category}`).toLowerCase()} issue.`);
       return startReportPick(category);
     }
     if (category) {
       setDraft({ category });
       setStep('find:location');
-      pushBot(`Looking for ${CATEGORIES[category].label.toLowerCase()}. Search near your location or a specific area?`, {
+      pushBot(`Looking for ${t(`categories.${category}`).toLowerCase()}. Search near your location or a specific area?`, {
         quickReplies: [
-          { label: '📍 Use my location', value: 'geo' },
-          { label: '🏙️ Nairobi CBD (default)', value: 'default' },
+          { label: t('chatbot.useMyLocation'), value: 'geo' },
+          { label: t('chatbot.kampalaDefault'), value: 'default' },
         ],
       });
       return;
     }
 
-    pushBot("I didn't quite catch that — here's what I can help with:", {
-      quickReplies: [
-        { label: '🔍 Find a facility', value: 'find' },
-        { label: '⚠️ Report an issue', value: 'report' },
-        { label: 'ℹ️ About this site', value: 'about' },
-        { label: '💬 Talk to a person', value: 'contact' },
-      ],
-    });
+    pushBot(t('chatbot.fallbackReply'), { quickReplies: menuQuickReplies(t) });
     setStep('menu');
   };
+
+  function detectCategory(text) {
+    const q = text.toLowerCase();
+    return Object.keys(CATEGORY_KEYWORDS).find((key) =>
+      CATEGORY_KEYWORDS[key].some((kw) => q.includes(kw))
+    );
+  }
 
   return (
     <div className="cb-root">
@@ -333,6 +320,7 @@ export default function ChatBot() {
                     key={facility.id}
                     facility={facility}
                     origin={origin}
+                    t={t}
                     onReportThis={(f) => {
                       pushUser(`Report status for ${f.name}`);
                       setDraft({ category: f.category });

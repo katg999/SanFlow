@@ -32,3 +32,20 @@ export function sortByProximity(facilities, origin) {
     (a, b) => distanceKm(origin, a) - distanceKm(origin, b)
   );
 }
+
+// Rough on-the-ground ETA, not a routed path: straight-line distance is
+// inflated by a street-detour factor, then split across typical urban
+// walking / boda-boda-or-car speeds. Good enough for "about X min", not
+// turn-by-turn directions.
+const DETOUR_FACTOR = 1.3;
+const WALK_KMH = 4.5;
+const DRIVE_KMH = 18;
+
+export function estimateEta(km) {
+  if (!Number.isFinite(km)) return null;
+  const roadKm = km * DETOUR_FACTOR;
+  return {
+    walkMin: Math.max(1, Math.round((roadKm / WALK_KMH) * 60)),
+    driveMin: Math.max(1, Math.round((roadKm / DRIVE_KMH) * 60)),
+  };
+}

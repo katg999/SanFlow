@@ -1,13 +1,15 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, CircleMarker } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
 import { CATEGORIES } from '../data/facilities.js';
+import { distanceKm, estimateEta } from '../utils/geo.js';
+import { useLanguage } from '../i18n/LanguageContext.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import RatingStars from './RatingStars.jsx';
 import './MapView.css';
 
-const DEFAULT_CENTER = [-1.2921, 36.8219]; // Nairobi CBD
-const DEFAULT_ZOOM = 12;
+const DEFAULT_CENTER = [0.3136, 32.5811]; // Kampala CBD
+const DEFAULT_ZOOM = 13;
 
 function buildIcon(category, active) {
   const color = CATEGORIES[category]?.color ?? '#1b3a5c';
@@ -43,6 +45,7 @@ export default function MapView({
   userLocation,
 }) {
   const mapRef = useRef(null);
+  const { t } = useLanguage();
   const selectedFacility = useMemo(
     () => facilities.find((f) => f.id === selectedId) || null,
     [facilities, selectedId]
@@ -69,6 +72,16 @@ export default function MapView({
         />
       )}
 
+      {userLocation && selectedFacility && (
+        <Polyline
+          positions={[
+            [userLocation.lat, userLocation.lng],
+            [selectedFacility.lat, selectedFacility.lng],
+          ]}
+          pathOptions={{ color: '#2f8ad6', weight: 3, dashArray: '6 8', opacity: 0.75 }}
+        />
+      )}
+
       {facilities.map((facility) => (
         <Marker
           key={facility.id}
@@ -87,8 +100,17 @@ export default function MapView({
               {facility.hours && <p className="map-popup-hours">{facility.hours}</p>}
               <p className="map-popup-desc">{facility.description}</p>
 
+              {userLocation && (() => {
+                const eta = estimateEta(distanceKm(userLocation, facility));
+                return (
+                  <p className="map-popup-eta">
+                    {t('map.walk', { min: eta.walkMin })} · {t('map.drive', { min: eta.driveMin })}
+                  </p>
+                );
+              })()}
+
               <div className="map-popup-rate">
-                <span>Rate this place:</span>
+                <span>{t('map.rateThis')}</span>
                 <RatingStars
                   value={facility.userRating ?? 0}
                   interactive
@@ -104,14 +126,14 @@ export default function MapView({
                   rel="noreferrer"
                   className="btn btn-primary btn-sm"
                 >
-                  Directions
+                  {t('map.directions')}
                 </a>
                 <button
                   type="button"
                   className="btn btn-outline btn-sm"
                   onClick={() => onReport?.(facility)}
                 >
-                  Report issue
+                  {t('map.reportIssue')}
                 </button>
               </div>
             </div>

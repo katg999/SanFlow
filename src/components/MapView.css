@@ -61,6 +61,13 @@
   line-height: 1.45;
 }
 
+.map-popup-eta {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 8px;
+  color: var(--color-accent-dark);
+}
+
 .map-popup-rate {
   display: flex;
   align-items: center;
