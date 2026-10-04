@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import {
   Droplets,
   MapPinned,
@@ -6,41 +8,30 @@ import {
   Bell,
   MessageCircle,
   Search,
-  ShieldCheck,
   Building2,
   ArrowRight,
+  ArrowUpRight,
 } from 'lucide-react';
-import { FACILITIES, CATEGORIES } from '../data/facilities.js';
 import useReveal from '../hooks/useReveal.js';
+import useStats from '../hooks/useStats.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
-import toiletPhoto1 from '../assets/facilities/toilet-1.jpg';
-import toiletPhoto2 from '../assets/facilities/toilet-2.jpg';
-import toiletPhoto3 from '../assets/facilities/toilet-3.jpg';
-import wastePhoto1 from '../assets/facilities/waste-1.jpg';
 import './Landing.css';
 
 const GALLERY = [
-  { src: toiletPhoto1, tag: 'Public toilet', caption: 'Newly built toilet block, ready for community use.' },
-  { src: toiletPhoto2, tag: 'Public toilet', caption: 'Toilet block with separate stalls and roofed access path.' },
-  { src: wastePhoto1, tag: 'Waste point', caption: 'Uncollected waste point flagged for pickup.' },
-  { src: toiletPhoto3, tag: 'Public toilet', caption: 'Toilet block with signage for accessible access.' },
+  { src: '/facilities/toilet-1.jpg', tag: 'Public toilet', caption: 'Newly built toilet block, ready for community use.' },
+  { src: '/facilities/toilet-2.jpg', tag: 'Public toilet', caption: 'Toilet block with separate stalls and roofed access path.' },
+  { src: '/facilities/waste-1.jpg', tag: 'Waste point', caption: 'Uncollected waste point flagged for pickup.' },
+  { src: '/facilities/toilet-3.jpg', tag: 'Public toilet', caption: 'Toilet block with signage for accessible access.' },
 ];
 
 const FEATURE_ICONS = [MapPinned, Star, Bell, MessageCircle];
+const FEATURE_LINKS = [
+  { href: '/map', external: false },
+  { href: '/map', external: false },
+  { href: '/map?report=1', external: false },
+  { href: 'https://wa.me/256772207616', external: true },
+];
 const STEP_NUMBERS = ['01', '02', '03', '04'];
-
-function useStats() {
-  const total = FACILITIES.length;
-  const byCategory = Object.keys(CATEGORIES).reduce((acc, key) => {
-    acc[key] = FACILITIES.filter((f) => f.category === key).length;
-    return acc;
-  }, {});
-  const countries = new Set(FACILITIES.map((f) => f.country)).size;
-  const avgRating =
-    FACILITIES.reduce((sum, f) => sum + f.rating, 0) / FACILITIES.length;
-
-  return { total, byCategory, countries, avgRating };
-}
 
 export default function Landing() {
   const stats = useStats();
@@ -49,6 +40,8 @@ export default function Landing() {
 
   const FEATURES = [1, 2, 3, 4].map((i) => ({
     icon: FEATURE_ICONS[i - 1],
+    href: FEATURE_LINKS[i - 1].href,
+    external: FEATURE_LINKS[i - 1].external,
     title: t(`landing.feature${i}Title`),
     text: t(`landing.feature${i}Text`),
   }));
@@ -63,88 +56,47 @@ export default function Landing() {
     <div className="landing">
       {/* Hero */}
       <section className="hero">
-        <div className="container hero-panel">
-          <div className="hero-inner">
-            <div className="hero-copy">
-              <span className="eyebrow eyebrow-inverse">
-                <Droplets size={14} /> {t('landing.eyebrow')}
-              </span>
-              <h1>
-                {t('landing.heroHeading')}
-                <span className="hero-highlight"> {t('landing.heroHighlight')}</span>
-              </h1>
-              <p className="hero-lead">{t('landing.heroLead')}</p>
-              <div className="hero-actions">
-                <Link to="/map" className="btn btn-primary">
-                  <Search size={17} /> {t('landing.findService')}
-                </Link>
-                <a
-                  href="https://wa.me/255744090361"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="btn btn-outline"
-                >
-                  <MessageCircle size={17} /> {t('landing.chatWhatsapp')}
-                </a>
-              </div>
-              <div className="hero-trust">
-                <ShieldCheck size={16} />
-                {t('landing.heroTrust')}
-              </div>
-            </div>
-
-            <div className="hero-visual" aria-hidden="true">
-              <div className="hero-card hero-card-main">
-                <div className="hero-card-row">
-                  <span className="hero-pin hero-pin-toilet" />
-                  <div>
-                    <strong>Kisenyi Public Toilet Block</strong>
-                    <p>240m away · {t('status.clean')}</p>
-                  </div>
-                  <span className="hero-rating">★ 4.0</span>
-                </div>
-                <div className="hero-card-row">
-                  <span className="hero-pin hero-pin-water" />
-                  <div>
-                    <strong>Makindye Borehole</strong>
-                    <p>410m away · {t('status.operational')}</p>
-                  </div>
-                  <span className="hero-rating">★ 4.3</span>
-                </div>
-                <div className="hero-card-row">
-                  <span className="hero-pin hero-pin-health" />
-                  <div>
-                    <strong>Kisenyi Health Centre III</strong>
-                    <p>650m away · {t('status.open')}</p>
-                  </div>
-                  <span className="hero-rating">★ 4.2</span>
-                </div>
-              </div>
-              <div className="hero-card hero-card-alert">
-                <Bell size={16} />
-                <div>
-                  <strong>Alert sent</strong>
-                  <p>Nakawa Market Toilet · {t('status.filling')}</p>
-                </div>
-              </div>
-            </div>
+        <div className="container hero-inner">
+          <span className="hero-location">
+            <Droplets size={13} /> {t('landing.eyebrow')}
+          </span>
+          <h1>
+            {t('landing.heroHeading')}
+            <br />
+            <span className="hero-highlight">{t('landing.heroHighlight')}</span>
+          </h1>
+          <div className="hero-actions">
+            <Link href="/map" className="btn btn-primary">
+              <Search size={17} /> {t('landing.findService')}
+            </Link>
+            <a
+              href="https://wa.me/256772207616"
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-outline"
+            >
+              <MessageCircle size={16} /> {t('landing.chatWhatsapp')}
+            </a>
           </div>
         </div>
       </section>
 
       {/* Stats */}
       <section className="stats reveal">
+        <div className="container">
+          <span className="eyebrow eyebrow-inverse stats-eyebrow">{t('landing.statsEyebrow')}</span>
+        </div>
         <div className="container stats-grid">
           <div className="stat-tile">
             <span className="stat-value">{stats.total}+</span>
             <span className="stat-label">{t('landing.statFacilities')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">200+</span>
+            <span className="stat-value">{stats.byCategory.toilet ?? 0}+</span>
             <span className="stat-label">{t('landing.statToilets')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">200+</span>
+            <span className="stat-value">{stats.byCategory.water ?? 0}+</span>
             <span className="stat-label">{t('landing.statWater')}</span>
           </div>
           <div className="stat-tile">
@@ -167,19 +119,34 @@ export default function Landing() {
             <p>{t('landing.featuresLead')}</p>
           </div>
           <div className="feature-grid">
-            {FEATURES.map(({ icon: Icon, title, text }, i) => (
-              <div
-                className="feature-card reveal"
-                style={{ transitionDelay: `${i * 80}ms` }}
-                key={title}
-              >
-                <div className="icon-badge">
-                  <Icon size={20} />
-                </div>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </div>
-            ))}
+            {FEATURES.map(({ icon: Icon, title, text, href, external }, i) => {
+              const cardProps = {
+                className: 'feature-card reveal',
+                style: { transitionDelay: `${i * 80}ms` },
+              };
+              const content = (
+                <>
+                  <span className="feature-card-arrow">
+                    <ArrowUpRight size={15} />
+                  </span>
+                  <div className="icon-badge">
+                    <Icon size={20} />
+                  </div>
+                  <h3>{title}</h3>
+                  <p>{text}</p>
+                </>
+              );
+
+              return external ? (
+                <a key={title} href={href} target="_blank" rel="noreferrer" {...cardProps}>
+                  {content}
+                </a>
+              ) : (
+                <Link key={title} href={href} {...cardProps}>
+                  {content}
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>

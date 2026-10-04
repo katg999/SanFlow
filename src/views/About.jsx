@@ -1,24 +1,28 @@
-import { MapPinned, MessageCircle, LayoutDashboard, CheckCircle2 } from 'lucide-react';
+import Link from 'next/link';
+import { MapPinned, MessageCircle, LayoutDashboard, CheckCircle2, ArrowRight } from 'lucide-react';
 import './About.css';
 
 const PHASES = [
   {
+    number: '01',
     icon: MapPinned,
-    title: 'Phase 1 — Core Map & Ratings',
+    title: 'Core Map & Ratings',
     status: 'Live now',
     live: true,
     text: 'Interactive map of toilets, waste points, water sources and clinics across Kenya & Uganda, with search, filtering, star ratings and citizen alert reporting.',
   },
   {
+    number: '02',
     icon: MessageCircle,
-    title: 'Phase 2 — WhatsApp AI Assistant',
+    title: 'WhatsApp AI Assistant',
     status: 'Planned',
     live: false,
     text: 'Natural-language search ("Find borehole in Kibera"), the 5 nearest facilities with distance & ratings, "Alert" reporting, and Google Maps navigation links — all inside WhatsApp via the Business API.',
   },
   {
+    number: '03',
     icon: LayoutDashboard,
-    title: 'Phase 3 — Admin Dashboard & Escalation',
+    title: 'Admin Dashboard & Escalation',
     status: 'Planned',
     live: false,
     text: 'A municipal dashboard with real-time alerts, sanitation coverage heat maps, collection-route scheduling, and automatic escalation to the County Health Officer when a "Full" status stays open past 24 hours.',
@@ -42,15 +46,23 @@ export default function About() {
 
       <section className="about-phases">
         <div className="container">
+          <span className="eyebrow">The roadmap</span>
+          <h2>Three phases to a fully proactive system</h2>
+          <p className="about-section-lead">
+            Each phase builds on the last — from a usable map today, to reaching people without
+            smartphones, to closing the loop with the municipalities that fix things.
+          </p>
           <div className="about-phase-list">
-            {PHASES.map(({ icon: Icon, title, status, live, text }) => (
+            {PHASES.map(({ number, icon: Icon, title, status, live, text }) => (
               <div className={`about-phase ${live ? 'is-live' : ''}`} key={title}>
                 <div className="icon-badge about-phase-icon">
                   <Icon size={20} />
                 </div>
                 <div className="about-phase-body">
                   <div className="about-phase-top">
-                    <h3>{title}</h3>
+                    <h3>
+                      <span className="about-phase-number">{number}</span> {title}
+                    </h3>
                     <span className={`about-phase-status ${live ? 'is-live' : ''}`}>
                       {live && <CheckCircle2 size={13} />}
                       {status}
@@ -69,22 +81,40 @@ export default function About() {
           <span className="eyebrow">Under the hood</span>
           <h2>Built to run on low-end Android devices</h2>
           <div className="about-stack-grid">
-            <div>
+            <div className="about-stack-card">
               <h4>Frontend</h4>
-              <p>React + Vite responsive web app (PWA-ready), Leaflet + OpenStreetMap for mapping.</p>
+              <p>Next.js + React responsive web app, Leaflet + OpenStreetMap for mapping.</p>
             </div>
-            <div>
+            <div className="about-stack-card">
               <h4>Data &amp; API</h4>
               <p>PostgreSQL / MongoDB for facility, user and rating data; geocoding API for address search.</p>
             </div>
-            <div>
+            <div className="about-stack-card">
               <h4>Rules engine</h4>
               <p>Proximity-first sorting on every search, plus a 24-hour SLA that auto-escalates unresolved reports.</p>
             </div>
-            <div>
+            <div className="about-stack-card">
               <h4>Access channels</h4>
               <p>Responsive web app today; WhatsApp Business API / Twilio assistant in Phase 2 for feature-phone access.</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="about-cta">
+        <div className="container about-cta-inner">
+          <div>
+            <span className="eyebrow eyebrow-inverse">See it in action</span>
+            <h2>The map is already live</h2>
+            <p>Phase 1 is real today — browse it, rate a facility, or see the numbers behind it.</p>
+          </div>
+          <div className="about-cta-actions">
+            <Link href="/map" className="btn btn-accent">
+              Open the map <ArrowRight size={16} />
+            </Link>
+            <Link href="/impact" className="btn btn-outline about-cta-outline">
+              View impact
+            </Link>
           </div>
         </div>
       </section>

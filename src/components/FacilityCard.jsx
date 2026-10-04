@@ -1,3 +1,5 @@
+'use client';
+
 import { Droplet, Trash2, HeartPulse, Bath, Clock, TriangleAlert, Footprints, Car } from 'lucide-react';
 import { CATEGORIES } from '../data/facilities.js';
 import { formatDistance, estimateEta } from '../utils/geo.js';

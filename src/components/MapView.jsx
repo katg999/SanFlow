@@ -1,6 +1,9 @@
+'use client';
+
 import { useEffect, useMemo, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap, CircleMarker } from 'react-leaflet';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import { CATEGORIES } from '../data/facilities.js';
 import { distanceKm, estimateEta } from '../utils/geo.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';

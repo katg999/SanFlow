@@ -1,13 +1,20 @@
+'use client';
+
 import { useMemo, useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Search, LocateFixed, Droplet, Trash2, HeartPulse, Bath, LayoutGrid } from 'lucide-react';
+import dynamic from 'next/dynamic';
+import { useSearchParams } from 'next/navigation';
+import { Search, LocateFixed, Droplet, Trash2, HeartPulse, Bath, LayoutGrid, Plus } from 'lucide-react';
 import { useFacilityStore } from '../hooks/useFacilityStore.js';
+import { useOsmFacilities } from '../hooks/useOsmFacilities.js';
 import { distanceKm, sortByProximity } from '../utils/geo.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
-import MapView from '../components/MapView.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 import FacilityCard from '../components/FacilityCard.jsx';
 import ReportAlertModal from '../components/ReportAlertModal.jsx';
+import AddFacilityModal from '../components/AddFacilityModal.jsx';
 import './MapPage.css';
+
+const MapView = dynamic(() => import('../components/MapView.jsx'), { ssr: false });
 
 const KAMPALA_CENTER = { lat: 0.3136, lng: 32.5811 };
 
@@ -20,13 +27,16 @@ const FILTER_KEYS = [
 ];
 
 export default function MapPage() {
-  const { facilities, rateFacility, reportIssue } = useFacilityStore();
+  const { facilities: osmFacilities, status: osmStatus } = useOsmFacilities();
+  const { facilities, rateFacility, reportIssue, addFacility } = useFacilityStore(osmFacilities);
   const { t } = useLanguage();
-  const [searchParams] = useSearchParams();
+  const { user } = useAuth();
+  const searchParams = useSearchParams();
   const [query, setQuery] = useState('');
   const [filter, setFilter] = useState(() => searchParams.get('category') ?? 'all');
   const [selectedId, setSelectedId] = useState(() => searchParams.get('focus'));
   const [reportTarget, setReportTarget] = useState(null);
+  const [addOpen, setAddOpen] = useState(false);
   const [userLocation, setUserLocation] = useState(null);
   const [locating, setLocating] = useState(false);
 
@@ -77,6 +87,21 @@ export default function MapPage() {
         <div className="map-sidebar-header">
           <h2>{t('map.title')}</h2>
           <p>{userLocation ? t('map.subtitleWithLocation') : t('map.subtitleDefault')}</p>
+          {osmStatus === 'loading' && (
+            <p className="map-osm-note">
+              Loading live toilets &amp; waste points from OpenStreetMap…
+            </p>
+          )}
+          {osmStatus === 'ready' && osmFacilities.length > 0 && (
+            <p className="map-osm-note">
+              +{osmFacilities.length} live toilets &amp; waste points from OpenStreetMap
+            </p>
+          )}
+          {osmStatus === 'error' && (
+            <p className="map-osm-note map-osm-note-error">
+              Live OpenStreetMap data unavailable right now — showing sample facilities.
+            </p>
+          )}
 
           <div className="map-search">
             <Search size={16} />
@@ -91,6 +116,21 @@ export default function MapPage() {
           <button type="button" className="map-locate-btn" onClick={handleLocate}>
             <LocateFixed size={15} />
             {locating ? t('map.locating') : userLocation ? t('map.usingLocation') : t('map.locate')}
+          </button>
+
+          <button
+            type="button"
+            className="map-locate-btn"
+            onClick={() => {
+              if (!user) {
+                window.location.href = '/login';
+                return;
+              }
+              setAddOpen(true);
+            }}
+          >
+            <Plus size={15} />
+            Add a facility
           </button>
 
           <div className="map-filters">
@@ -140,6 +180,16 @@ export default function MapPage() {
         facility={reportTarget}
         onClose={() => setReportTarget(null)}
         onSubmit={reportIssue}
+      />
+
+      <AddFacilityModal
+        open={addOpen}
+        onClose={() => setAddOpen(false)}
+        onSubmit={async (input) => {
+          const created = await addFacility(input);
+          setSelectedId(created.id);
+        }}
+        defaultLocation={userLocation ?? KAMPALA_CENTER}
       />
     </div>
   );

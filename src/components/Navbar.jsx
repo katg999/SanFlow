@@ -1,91 +1,173 @@
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { Menu, X, MapPin, Globe, LogOut } from 'lucide-react';
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
+import { Menu, X, MapPin, Globe, LogOut, Sun, Moon, User } from 'lucide-react';
 import Logo from './Logo.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
+import { useTheme } from '../context/ThemeContext.jsx';
 import './Navbar.css';
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef(null);
   const { user, logout } = useAuth();
   const { lang, setLang, t, languages } = useLanguage();
-  const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (!accountOpen) return undefined;
+    const handlePointer = (e) => {
+      if (accountRef.current && !accountRef.current.contains(e.target)) {
+        setAccountOpen(false);
+      }
+    };
+    const handleKey = (e) => {
+      if (e.key === 'Escape') setAccountOpen(false);
+    };
+    document.addEventListener('mousedown', handlePointer);
+    document.addEventListener('keydown', handleKey);
+    return () => {
+      document.removeEventListener('mousedown', handlePointer);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [accountOpen]);
 
   const LINKS = [
     { to: '/', label: t('nav.home'), end: true },
     { to: '/map', label: t('nav.findServices') },
+    { to: '/impact', label: t('nav.impact') },
     { to: '/about', label: t('nav.about') },
   ];
+
+  const isActive = (to, end) => (end ? pathname === to : pathname.startsWith(to));
 
   const toggleLang = () => setLang(lang === 'en' ? 'sw' : 'en');
 
   const handleLogout = () => {
     logout();
     setOpen(false);
-    navigate('/');
+    router.push('/');
   };
 
   return (
     <header className="navbar">
       <div className="container navbar-inner">
-        <NavLink to="/" className="navbar-brand" onClick={() => setOpen(false)}>
+        <Link href="/" className="navbar-brand" onClick={() => setOpen(false)}>
           <Logo size={46} />
-        </NavLink>
+        </Link>
 
         <nav className={`navbar-links ${open ? 'is-open' : ''}`}>
-          {LINKS.map((link) => (
-            <NavLink
-              key={link.to}
-              to={link.to}
-              end={link.end}
-              className={({ isActive }) => `navbar-link ${isActive ? 'is-active' : ''}`}
-              onClick={() => setOpen(false)}
+          <div className="navbar-links-primary">
+            {LINKS.map((link) => (
+              <Link
+                key={link.to}
+                href={link.to}
+                className={`navbar-link ${isActive(link.to, link.end) ? 'is-active' : ''}`}
+                onClick={() => setOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+
+          <div className="navbar-links-account">
+            <Link href="/map" className="btn btn-accent btn-sm navbar-cta" onClick={() => setOpen(false)}>
+              <MapPin size={16} />
+              {t('nav.openMap')}
+            </Link>
+          </div>
+        </nav>
+
+        <div className="navbar-utility">
+          <div className="navbar-account" ref={accountRef}>
+            <button
+              type="button"
+              className="navbar-icon-btn"
+              onClick={() => setAccountOpen((v) => !v)}
+              aria-haspopup="menu"
+              aria-expanded={accountOpen}
+              aria-label={user ? t('nav.hi', { name: user.name.split(' ')[0] }) : t('nav.account')}
+              title={user ? user.name : t('nav.account')}
             >
-              {link.label}
-            </NavLink>
-          ))}
+              <User size={16} />
+            </button>
+
+            {accountOpen && (
+              <div className="navbar-account-menu" role="menu">
+                {user ? (
+                  <>
+                    <span className="navbar-account-hi">{t('nav.hi', { name: user.name.split(' ')[0] })}</span>
+                    <button
+                      type="button"
+                      role="menuitem"
+                      className="navbar-account-item"
+                      onClick={() => {
+                        setAccountOpen(false);
+                        handleLogout();
+                      }}
+                    >
+                      <LogOut size={15} /> {t('nav.logout')}
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/login"
+                      role="menuitem"
+                      className="navbar-account-item"
+                      onClick={() => setAccountOpen(false)}
+                    >
+                      {t('nav.login')}
+                    </Link>
+                    <Link
+                      href="/register"
+                      role="menuitem"
+                      className="navbar-account-item"
+                      onClick={() => setAccountOpen(false)}
+                    >
+                      {t('nav.register')}
+                    </Link>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
 
           <button
             type="button"
-            className="navbar-link navbar-lang-btn"
+            className="navbar-icon-btn"
             onClick={toggleLang}
+            aria-label={`Switch language, currently ${languages[lang]?.label}`}
             title={languages[lang]?.label}
           >
-            <Globe size={15} /> {lang.toUpperCase()}
+            <Globe size={16} />
+            <span className="navbar-icon-btn-tag">{lang.toUpperCase()}</span>
           </button>
 
-          {user ? (
-            <>
-              <span className="navbar-link navbar-hi">{t('nav.hi', { name: user.name.split(' ')[0] })}</span>
-              <button type="button" className="btn btn-outline btn-sm navbar-cta" onClick={handleLogout}>
-                <LogOut size={15} /> {t('nav.logout')}
-              </button>
-            </>
-          ) : (
-            <>
-              <NavLink to="/login" className="navbar-link" onClick={() => setOpen(false)}>
-                {t('nav.login')}
-              </NavLink>
-              <NavLink to="/register" className="btn btn-outline btn-sm navbar-cta" onClick={() => setOpen(false)}>
-                {t('nav.register')}
-              </NavLink>
-            </>
-          )}
+          <button
+            type="button"
+            className="navbar-icon-btn"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            onClick={toggleTheme}
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
 
-          <NavLink to="/map" className="btn btn-accent btn-sm navbar-cta" onClick={() => setOpen(false)}>
-            <MapPin size={16} />
-            {t('nav.openMap')}
-          </NavLink>
-        </nav>
-
-        <button
-          className="navbar-toggle"
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          onClick={() => setOpen((v) => !v)}
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
+          <button
+            className="navbar-toggle"
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
+        </div>
       </div>
     </header>
   );

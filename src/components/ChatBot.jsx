@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, X, Send, ExternalLink, MapPin } from 'lucide-react';
 import { CATEGORIES, STATUS } from '../data/facilities.js';
@@ -6,7 +8,7 @@ import { distanceKm, formatDistance, sortByProximity } from '../utils/geo.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './ChatBot.css';
 
-const WHATSAPP_NUMBER = '255744090361';
+const WHATSAPP_NUMBER = '256772207616';
 
 const KAMPALA_CENTER = { lat: 0.3136, lng: 32.5811 };
 

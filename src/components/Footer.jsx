@@ -1,4 +1,6 @@
-import { Link } from 'react-router-dom';
+'use client';
+
+import Link from 'next/link';
 import { MessageCircle, Mail, MapPin } from 'lucide-react';
 import Logo from './Logo.jsx';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
@@ -23,9 +25,9 @@ export default function Footer() {
         <div className="footer-col">
           <h4>{t('footer.product')}</h4>
           <ul>
-            <li><Link to="/map">{t('footer.findFacility')}</Link></li>
-            <li><Link to="/map?report=1">{t('footer.reportIssue')}</Link></li>
-            <li><Link to="/about">{t('footer.howItWorks')}</Link></li>
+            <li><Link href="/map">{t('footer.findFacility')}</Link></li>
+            <li><Link href="/map?report=1">{t('footer.reportIssue')}</Link></li>
+            <li><Link href="/about">{t('footer.howItWorks')}</Link></li>
           </ul>
         </div>
 
@@ -41,7 +43,7 @@ export default function Footer() {
         <div className="footer-col">
           <h4>{t('footer.contact')}</h4>
           <ul className="footer-contact">
-            <li><MessageCircle size={16} /> +255 744 090 361 (WhatsApp)</li>
+            <li><MessageCircle size={16} /> +256 772 207 616 (WhatsApp)</li>
             <li><Mail size={16} /> hello@sanflow-washlink.org</li>
             <li><MapPin size={16} /> {t('footer.addressLine')}</li>
           </ul>

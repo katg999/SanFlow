@@ -2,13 +2,8 @@
 // In Phase 2+ this is replaced by the PostgreSQL/MongoDB-backed API described
 // in the developer brief (see README "Roadmap" section).
 
-import toiletPhoto1 from '../assets/facilities/toilet-1.jpg';
-import toiletPhoto2 from '../assets/facilities/toilet-2.jpg';
-import toiletPhoto3 from '../assets/facilities/toilet-3.jpg';
-import wastePhoto1 from '../assets/facilities/waste-1.jpg';
-
-const TOILET_PHOTOS = [toiletPhoto1, toiletPhoto2, toiletPhoto3];
-const WASTE_PHOTOS = [wastePhoto1];
+const TOILET_PHOTOS = ['/facilities/toilet-1.jpg', '/facilities/toilet-2.jpg', '/facilities/toilet-3.jpg'];
+const WASTE_PHOTOS = ['/facilities/waste-1.jpg'];
 
 export const CATEGORIES = {
   toilet: {
@@ -45,6 +40,7 @@ export const STATUS = {
   full: { key: 'full', label: 'Full', tone: 'warning' },
   broken: { key: 'broken', label: 'Broken', tone: 'danger' },
   closed: { key: 'closed', label: 'Closed', tone: 'muted' },
+  unverified: { key: 'unverified', label: 'Unverified', tone: 'muted' },
 };
 
 export const FACILITIES = [

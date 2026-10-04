@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { Star } from 'lucide-react';
 import './RatingStars.css';
@@ -11,6 +13,10 @@ export default function RatingStars({
 }) {
   const [hover, setHover] = useState(0);
   const display = hover || Math.round(value);
+
+  if (!interactive && !value && !count) {
+    return <span className="rating-stars rating-stars-empty">Not yet rated</span>;
+  }
 
   return (
     <span className={`rating-stars ${interactive ? 'is-interactive' : ''}`}>

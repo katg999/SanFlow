@@ -1,5 +1,13 @@
 :root {
-  /* Brand palette — derived from the SanFlow Health WASHLink mark */
+  /* Fixed brand ink — always navy, regardless of light/dark theme.
+     Used only for solid full-bleed brand blocks (hero, stats, footer, org CTA)
+     and for content that sits on fixed-color surfaces (e.g. white map popups). */
+  --brand-navy: #1b3a5c;
+  --brand-navy-dark: #0f2438;
+  --brand-navy-light: #2f5c8a;
+
+  /* Theme-aware ink — used for headings, links and icons on page surfaces.
+     Defaults to the brand navy in light mode; lightens in dark mode (see below). */
   --color-primary: #1b3a5c;
   --color-primary-dark: #0f2438;
   --color-primary-light: #2f5c8a;
@@ -18,19 +26,23 @@
   --color-warning: #dd9a2b;
   --color-warning-tint: #fbf1de;
 
-  --color-bg: #f6f9fb;
+  --color-bg: #faf9f5;
   --color-surface: #ffffff;
   --color-border: #e1e8ef;
   --color-text: #16283a;
   --color-text-muted: #57697c;
   --color-text-inverse: #f6f9fb;
 
-  --gradient-brand: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary) 55%, var(--color-primary-light) 100%);
-  --gradient-brand-soft: linear-gradient(135deg, rgba(15, 36, 56, 0.12) 0%, rgba(27, 58, 92, 0.08) 55%, rgba(47, 92, 138, 0.1) 100%);
-  --gradient-cta: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.6);
 
-  --font-heading: 'Poppins', 'Segoe UI', sans-serif;
-  --font-body: 'Inter', 'Segoe UI', sans-serif;
+  --gradient-brand: linear-gradient(135deg, var(--brand-navy-dark) 0%, var(--brand-navy) 55%, var(--brand-navy-light) 100%);
+  --gradient-brand-soft: linear-gradient(135deg, rgba(15, 36, 56, 0.12) 0%, rgba(27, 58, 92, 0.08) 55%, rgba(47, 92, 138, 0.1) 100%);
+  --gradient-cta: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-navy-light) 100%);
+
+  --font-heading: var(--font-poppins), 'Segoe UI', sans-serif;
+  --font-body: var(--font-inter), 'Segoe UI', sans-serif;
+  --font-display: var(--font-anton), var(--font-poppins), 'Segoe UI', sans-serif;
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -48,6 +60,38 @@
   color-scheme: light;
 }
 
+:root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-primary: #6fa8dc;
+  --color-primary-dark: #eef3f8;
+  --color-primary-light: #8fc1ea;
+  --color-primary-tint: rgba(111, 168, 220, 0.16);
+
+  --color-accent: #2bbf98;
+  --color-accent-dark: #23a382;
+  --color-accent-tint: rgba(43, 191, 152, 0.16);
+
+  --color-danger: #ef6a6a;
+  --color-danger-tint: rgba(239, 106, 106, 0.16);
+  --color-warning: #f0ad4e;
+  --color-warning-tint: rgba(240, 173, 78, 0.16);
+
+  --color-bg: #060b12;
+  --color-surface: #101a28;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-text: #eef3f8;
+  --color-text-muted: rgba(238, 243, 248, 0.64);
+
+  --glass-bg: rgba(10, 18, 30, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
+  --shadow-glow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -62,6 +106,7 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 h1, h2, h3, h4 {
@@ -166,6 +211,13 @@ img, svg {
   width: 100%;
 }
 
+.display-heading {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
 .eyebrow {
   display: inline-flex;
   align-items: center;
@@ -253,5 +305,5 @@ img, svg {
 }
 
 .leaflet-bar a {
-  color: var(--color-primary) !important;
+  color: var(--brand-navy) !important;
 }

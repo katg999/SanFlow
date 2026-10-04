@@ -1,3 +1,5 @@
+'use client';
+
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { LANGUAGES, translate } from './translations.js';
 
@@ -5,13 +7,16 @@ const LanguageContext = createContext(null);
 const STORAGE_KEY = 'washlink_lang';
 
 export function LanguageProvider({ children }) {
-  const [lang, setLangState] = useState(() => {
+  const [lang, setLangState] = useState('en');
+
+  useEffect(() => {
     try {
-      return localStorage.getItem(STORAGE_KEY) || 'en';
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored && LANGUAGES[stored]) setLangState(stored);
     } catch {
-      return 'en';
+      // ignore storage failures (private browsing, etc.)
     }
-  });
+  }, []);
 
   useEffect(() => {
     document.documentElement.lang = lang;

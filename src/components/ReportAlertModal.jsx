@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from 'react';
 import { X, TriangleAlert } from 'lucide-react';
 import './ReportAlertModal.css';

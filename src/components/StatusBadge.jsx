@@ -1,3 +1,5 @@
+'use client';
+
 import { STATUS } from '../data/facilities.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './StatusBadge.css';

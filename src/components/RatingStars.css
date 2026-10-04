@@ -30,3 +30,8 @@
 .rating-count {
   color: var(--color-text-muted);
 }
+
+.rating-stars-empty {
+  color: var(--color-text-muted);
+  font-style: italic;
+}

@@ -24,21 +24,26 @@
   box-shadow: 0 4px 14px rgba(15, 36, 56, 0.5);
 }
 
+/* Leaflet popups always render on a fixed white background regardless of
+   site theme, so this block intentionally uses fixed (not theme-aware) ink
+   colors rather than the var(--color-text*) tokens. */
 .map-popup {
   padding: 14px 16px 16px;
   min-width: 230px;
+  color: var(--brand-navy-dark);
 }
 
 .map-popup h4 {
   font-family: var(--font-heading);
   font-size: 0.98rem;
-  color: var(--color-primary-dark);
+  color: var(--brand-navy-dark);
   padding-right: 8px;
 }
 
 .map-popup-area {
   font-size: 0.78rem;
   margin-top: 2px;
+  color: inherit;
 }
 
 .map-popup-meta {
@@ -52,13 +57,14 @@
 .map-popup-hours {
   font-size: 0.76rem;
   margin-top: 8px;
-  color: var(--color-text-muted);
+  color: rgba(22, 40, 58, 0.65);
 }
 
 .map-popup-desc {
   font-size: 0.8rem;
   margin-top: 8px;
   line-height: 1.45;
+  color: inherit;
 }
 
 .map-popup-eta {
@@ -75,10 +81,10 @@
   gap: 8px;
   margin-top: 12px;
   padding-top: 12px;
-  border-top: 1px solid var(--color-border);
+  border-top: 1px solid rgba(22, 40, 58, 0.12);
   font-size: 0.78rem;
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: rgba(22, 40, 58, 0.65);
 }
 
 .map-popup-actions {
@@ -89,6 +95,31 @@
 
 .map-popup-actions .btn {
   flex: 1;
+}
+
+/* Leaflet's own .leaflet-container a rule sets a fixed link color with
+   higher specificity than .btn-primary/.btn-outline alone, so it needs an
+   explicit override here to keep our button colors inside popups. */
+.map-popup-actions .btn-primary {
+  color: var(--color-text-inverse);
+}
+
+.map-popup-actions .btn-outline {
+  color: var(--brand-navy);
+  background: #ffffff;
+  border-color: rgba(22, 40, 58, 0.18);
+}
+
+.map-popup .rating-value {
+  color: var(--brand-navy-dark);
+}
+
+.map-popup .rating-count {
+  color: rgba(22, 40, 58, 0.6);
+}
+
+.map-popup .rating-stars-empty {
+  color: rgba(22, 40, 58, 0.6);
 }
 
 .leaflet-popup-content {
