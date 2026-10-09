@@ -43,7 +43,7 @@ export default function AdminDashboard() {
     <DashShell
       role="admin"
       title="Super admin"
-      subtitle="Manage every user, role and system setting. Admins can also open every other portal."
+      subtitle="Manage every user, role and system setting. Admins can also open the Municipality portal."
       tabs={tabs}
       tab={tab}
       onTab={setTab}

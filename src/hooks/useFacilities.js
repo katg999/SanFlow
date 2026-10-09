@@ -17,7 +17,7 @@ export function useFacilities() {
   useEffect(() => {
     if (ops.version !== lastVersion.current) {
       lastVersion.current = ops.version;
-      reload();
+      reload(true); // bypass the CDN cache: show the user's own change immediately
     }
   }, [ops.version, reload]);
 

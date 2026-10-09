@@ -12,8 +12,8 @@ export function useFacilityStore() {
 
   // Re-read after anything that changes server state (verified report, confirmation, operator edit).
   const reload = useCallback(
-    () =>
-      apiFetch('/api/facilities')
+    (fresh = false) =>
+      apiFetch(fresh ? `/api/facilities?t=${Date.now()}` : '/api/facilities')
         .then(({ facilities: list }) => {
           setFacilities(list);
           setStatus('ready');
@@ -31,7 +31,7 @@ export function useFacilityStore() {
   const addFacility = useCallback(
     async (input) => {
       const { facility } = await apiFetch('/api/facilities', { method: 'POST', body: JSON.stringify(input) });
-      await reload();
+      await reload(true);
       return facility;
     },
     [reload]

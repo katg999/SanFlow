@@ -203,6 +203,13 @@ test('ward gap analysis matches the brief: Mukuru has 12,000 people and needs 12
   assert.equal(mukuru.coveragePct, 0);
 });
 
+test('notices: unknown areas are rejected; city-wide reach sums its wards', async () => {
+  assert.equal((await call('POST', '/api/notices', { token: tokens.municipality, body: { title: 'x', body: 'y', area: 'Atlantis' } })).status, 400);
+  const city = await call('POST', '/api/notices', { token: tokens.municipality, body: { title: 'City', body: 'all of Nairobi', area: 'Nairobi', app: true } });
+  assert.equal(city.status, 201);
+  assert.ok(city.data.notice.sent >= 12000 + 5200 + 3800);
+});
+
 test('bulk notice computes reach from ward population and is public to read', async () => {
   const sent = await call('POST', '/api/notices', { token: tokens.municipality, body: { title: 'Chlorination', body: 'Tomorrow 8 AM', area: 'Kibera', sms: true, app: true } });
   assert.equal(sent.status, 201);

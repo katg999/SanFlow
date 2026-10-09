@@ -33,6 +33,7 @@ export default function MunicipalityDashboard() {
   const [tab, setTab] = useState('gis');
   const [layer, setLayer] = useState('status');
   const [geo, setGeo] = useState(null);
+  const [mapCity, setMapCity] = useState('Nairobi');
   const [notice, setNotice] = useState({ title: '', body: '', area: 'All areas', sms: false, app: true });
   const [sent, setSent] = useState(false);
   const [partner, setPartner] = useState({ name: '', product: '' });
@@ -65,10 +66,12 @@ export default function MunicipalityDashboard() {
 
   const coverageColor = (p) => (p == null ? UNKNOWN : p >= 100 ? GOOD : p >= 50 ? WARN : BAD);
   const wardById = useMemo(() => Object.fromEntries(wards.map((w) => [w.id, w])), [wards]);
-  const geoLayer = layer === 'coverage' && geo
+  // Nairobi and Kampala are ~500 km apart: show one city's wards at a time so the map can zoom in on them.
+  const cityGeo = geo ? { ...geo, features: geo.features.filter((f) => (wardById[f.properties.id]?.city ?? f.properties.city) === mapCity) } : null;
+  const geoLayer = layer === 'coverage' && cityGeo
     ? {
-        key: `coverage-${wards.length}`,
-        data: geo,
+        key: `coverage-${wards.length}-${mapCity}`,
+        data: cityGeo,
         style: (p) => ({ color: '#ffffff', weight: 1, fillColor: coverageColor(wardById[p.id]?.coveragePct), fillOpacity: 0.55 }),
         tooltip: (p) => {
           const w = wardById[p.id];
@@ -110,7 +113,7 @@ export default function MunicipalityDashboard() {
   const send = (e) => {
     e.preventDefault();
     ops
-      .sendNotice(notice)
+      .sendNotice({ ...notice, area: notice.area.replace(' (whole city)', '') })
       .then(() => {
         setNotice({ title: '', body: '', area: 'All areas', sms: false, app: true });
         setSent(true);
@@ -147,7 +150,14 @@ export default function MunicipalityDashboard() {
                 <button key={k} type="button" className={layer === k ? 'is-active' : ''} onClick={() => setLayer(k)}>{label}</button>
               ))}
             </div>
-            <DashMap markers={markers} heat={heat} geo={geoLayer} fitKey={`${layer}-${geo ? 'g' : 'n'}-${markers.length}`} height={460} />
+            {layer === 'coverage' && (
+              <div className="layer-toggle no-print" style={{ marginLeft: 8 }}>
+                {['Nairobi', 'Kampala'].map((c) => (
+                  <button key={c} type="button" className={mapCity === c ? 'is-active' : ''} onClick={() => setMapCity(c)}>{c}</button>
+                ))}
+              </div>
+            )}
+            <DashMap markers={markers} heat={heat} geo={geoLayer} fitKey={`${layer}-${geo ? 'g' : 'n'}-${markers.length}-${mapCity}`} height={460} />
             <ul className="legend">
               {layer === 'coverage' ? (
                 <>
@@ -396,7 +406,7 @@ export default function MunicipalityDashboard() {
             <h3>Send a bulk notice</h3>
             <p className="sub">Shown as an in-app banner to everyone. SMS is recorded but not sent until an SMS gateway (Africa&apos;s Talking) is connected on the server.</p>
             <label>Title<input required value={notice.title} onChange={(e) => setNotice({ ...notice, title: e.target.value })} /></label>
-            <label>Area<select value={notice.area} onChange={(e) => setNotice({ ...notice, area: e.target.value })}><option>All areas</option>{wards.map((w) => <option key={w.id}>{w.name}</option>)}</select></label>
+            <label>Area<select value={notice.area} onChange={(e) => setNotice({ ...notice, area: e.target.value })}><option>All areas</option>{[...new Set(wards.map((w) => w.city))].map((c) => <option key={c}>{c} (whole city)</option>)}{wards.map((w) => <option key={w.id}>{w.name}</option>)}</select></label>
             <label>Message<textarea required rows={3} value={notice.body} onChange={(e) => setNotice({ ...notice, body: e.target.value })} /></label>
             <div className="check-row">
               <label><input type="checkbox" checked={notice.app} onChange={(e) => setNotice({ ...notice, app: e.target.checked })} />App / web banner</label>

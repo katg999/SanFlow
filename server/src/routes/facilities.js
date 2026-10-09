@@ -32,6 +32,9 @@ const fetchOne = async (c, id, extraSelect = '') => {
 
 // GET /api/facilities?lat=&lng=&radiusKm=&category=   — sorted by distance when a position is given
 router.get('/', wrap(async (req, res) => {
+  // The ~12,000-row list is public and the same for everyone: let Netlify's CDN serve it (a `?t=` query string bypasses
+  // the cache, which the app uses right after a user action so they see their own change at once).
+  if (!req.query.t) res.set('Netlify-CDN-Cache-Control', 'public, s-maxage=30, stale-while-revalidate=300');
   const params = [];
   const where = ['NOT f.osm_gone'];
   let dist = '';

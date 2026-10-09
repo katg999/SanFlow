@@ -27,9 +27,13 @@ notices.post('/', requireAuth, requireRole('municipality', 'admin'), wrap(async 
   const channels = [b.sms && 'SMS', b.app !== false && 'App'].filter(Boolean).join(' + ');
   const area = String(b.area || 'All areas');
   const notice = await tx(async (c) => {
-    const { rows: [{ pop }] } = await c.query(
-      area === 'All areas' ? 'SELECT coalesce(sum(population), 0)::int AS pop FROM wards' : 'SELECT coalesce(sum(population), 0)::int AS pop FROM wards WHERE name = $1',
+    // area must be a real ward, a whole city, or everywhere — never silently "reach" nobody
+    const { rows: [{ pop, matched }] } = await c.query(
+      area === 'All areas'
+        ? 'SELECT coalesce(sum(population), 0)::int AS pop, count(*)::int AS matched FROM wards'
+        : 'SELECT coalesce(sum(population), 0)::int AS pop, count(*)::int AS matched FROM wards WHERE name = $1 OR city = $1',
       area === 'All areas' ? [] : [area]);
+    if (!matched) throw bad(`unknown area "${area}": choose a ward, a city (Nairobi / Kampala) or All areas`);
     const { rows: [n] } = await c.query(
       'INSERT INTO notices(title, body, area, channels, recipients, sent_by) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *',
       [String(b.title).slice(0, 140), String(b.body).slice(0, 1000), area, channels || 'App', pop, req.user.name]);
@@ -209,6 +213,7 @@ auditRoutes.get('/', requireAuth, requireRole('admin'), wrap(async (_req, res) =
 
 // ---- Public stats for the Impact page: real counts only; null when there is nothing to average ----
 publicStats.get('/', wrap(async (_req, res) => {
+  res.set('Netlify-CDN-Cache-Control', 'public, s-maxage=60, stale-while-revalidate=600');
   const { rows: cats } = await query("SELECT category, count(*)::int AS n FROM facilities WHERE NOT osm_gone GROUP BY category");
   const { rows: [t] } = await query(
     `SELECT count(*)::int AS facilities, count(DISTINCT country)::int AS countries,
