@@ -1,11 +1,12 @@
 'use client';
 
-import { Droplet, Trash2, HeartPulse, Bath, Clock, TriangleAlert, Footprints, Car } from 'lucide-react';
+import { Droplet, Trash2, HeartPulse, Bath, Clock, TriangleAlert, Footprints, Car, Navigation } from 'lucide-react';
 import { CATEGORIES } from '../data/facilities.js';
 import { formatDistance, estimateEta } from '../utils/geo.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import StatusBadge from './StatusBadge.jsx';
 import RatingStars from './RatingStars.jsx';
+import FacilityInfo from './FacilityInfo.jsx';
 import './FacilityCard.css';
 
 const ICONS = {
@@ -22,6 +23,7 @@ export default function FacilityCard({
   active = false,
   onSelect,
   onReport,
+  onNavigate,
 }) {
   const { t } = useLanguage();
   const Icon = ICONS[facility.category] ?? Droplet;
@@ -69,6 +71,8 @@ export default function FacilityCard({
           </p>
         )}
 
+        <FacilityInfo facility={facility} compact />
+
         <button
           type="button"
           className="facility-report-btn"
@@ -78,6 +82,16 @@ export default function FacilityCard({
           }}
         >
           <TriangleAlert size={13} /> {t('map.reportIssue')}
+        </button>
+        <button
+          type="button"
+          className="facility-report-btn facility-nav-btn"
+          onClick={(e) => {
+            e.stopPropagation();
+            onNavigate?.(facility);
+          }}
+        >
+          <Navigation size={13} /> {t('map.directions')}
         </button>
       </div>
     </article>

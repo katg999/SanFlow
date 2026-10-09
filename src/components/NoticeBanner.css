@@ -1,0 +1,5 @@
+.notice-banner { display: flex; align-items: center; gap: 10px; padding: 9px 20px; background: var(--color-warning-tint); color: #6b4505; font-size: 0.84rem; }
+.notice-banner span { flex: 1; }
+.notice-banner em { font-style: normal; opacity: .75; }
+.notice-banner button { background: none; border: none; color: inherit; display: flex; }
+:root[data-theme='dark'] .notice-banner { color: var(--color-warning); }

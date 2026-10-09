@@ -1,0 +1,3 @@
+.route-list { margin: 14px 0 0 4px; display: grid; gap: 8px; font-size: 0.84rem; color: var(--color-text); }
+.profile { display: flex; gap: 16px; align-items: flex-start; }
+.profile h4 { font-size: 1.05rem; }

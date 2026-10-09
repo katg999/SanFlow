@@ -122,3 +122,9 @@
 .modal-success p {
   font-size: 0.88rem;
 }
+
+.modal-attach { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 8px; }
+.modal-attach-btn { cursor: pointer; }
+.modal-photo-preview { width: 100%; max-height: 140px; object-fit: cover; border-radius: var(--radius-sm); margin-bottom: 8px; }
+.modal-gps { font-size: 0.74rem; margin-bottom: 10px; }
+.modal-success .btn { margin-top: 14px; }

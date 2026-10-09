@@ -1,0 +1,27 @@
+.nav-panel { display: flex; flex-direction: column; height: 100%; overflow-y: auto; }
+.nav-head { padding: 18px 20px 14px; border-bottom: 1px solid var(--color-border); }
+.nav-back { display: inline-flex; align-items: center; gap: 6px; background: none; border: none; padding: 0; font-size: 0.8rem; font-weight: 700; color: var(--color-primary); margin-bottom: 10px; }
+.nav-head h2 { font-size: 1.05rem; }
+.nav-dest { font-weight: 700; color: var(--color-text); margin-top: 4px; }
+.nav-dest-meta { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.78rem; color: var(--color-text-muted); }
+.nav-loading { padding: 20px; }
+.nav-now { display: flex; gap: 14px; align-items: center; margin: 16px 20px 0; padding: 16px; border-radius: var(--radius-md); background: var(--gradient-brand); color: #fff; }
+.nav-now strong { display: block; font-size: 1.02rem; font-family: var(--font-heading); }
+.nav-now span { font-size: 0.8rem; opacity: 0.8; }
+.nav-now-icon { width: 46px; height: 46px; border-radius: 12px; background: rgba(255,255,255,.16); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.nav-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 20px 0; }
+.nav-stats > div { display: flex; flex-direction: column; gap: 2px; padding: 12px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); color: var(--color-primary); }
+.nav-stats strong { font-family: var(--font-heading); font-size: 1.15rem; color: var(--color-text); }
+.nav-stats span { font-size: 0.72rem; color: var(--color-text-muted); }
+.nav-note { margin: 10px 20px 0; font-size: 0.76rem; color: var(--color-warning); }
+.nav-note-ok { color: var(--color-accent-dark); }
+.nav-actions { display: flex; gap: 8px; flex-wrap: wrap; margin: 14px 20px 0; }
+.nav-steps { list-style: decimal; margin: 14px 20px 20px 38px; padding: 0; display: grid; gap: 8px; }
+.nav-steps li { font-size: 0.84rem; color: var(--color-text); }
+.nav-steps li span { margin-right: 6px; }
+.nav-steps em { font-style: normal; font-size: 0.74rem; color: var(--color-text-muted); }
+.nav-arrived { padding: 24px 20px; text-align: center; color: var(--color-accent-dark); display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.nav-arrived h3 { color: var(--color-text); }
+.nav-rate { margin: 6px 0; }
+.nav-confirm { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; font-size: 0.82rem; color: var(--color-text); }
+.nav-arrived .nav-actions { justify-content: center; }

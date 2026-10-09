@@ -1,0 +1,14 @@
+# Local PostgreSQL + PostGIS for development:  docker compose up -d db
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: sanflow
+      POSTGRES_PASSWORD: sanflow
+      POSTGRES_DB: sanflow
+    ports:
+      - '54329:5432'
+    volumes:
+      - sanflow_pg:/var/lib/postgresql/data
+volumes:
+  sanflow_pg:

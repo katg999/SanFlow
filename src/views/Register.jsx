@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext.jsx';
+import { ROLES } from '../data/roles.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './Auth.css';
 
@@ -14,16 +15,17 @@ export default function Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState('citizen');
   const [error, setError] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const result = await register(name, email, password);
+    const result = await register(name, email, password, role);
     if (!result.ok) {
-      setError(t(`auth.${result.error}`));
+      setError(['emailTaken', 'networkError'].includes(result.error) ? t(`auth.${result.error}`) : result.error);
       return;
     }
-    router.push('/map');
+    router.push(ROLES[result.user?.role]?.home ?? '/map');
   };
 
   return (
@@ -46,6 +48,14 @@ export default function Register() {
             />
           </div>
           <div className="auth-field">
+            <label htmlFor="register-role">I am a…</label>
+            <select id="register-role" value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="citizen">Citizen — find &amp; report services</option>
+              <option value="operator">Facility operator — toilet / water point owner</option>
+              <option value="provider">Service provider — exhauster / waste collector</option>
+            </select>
+          </div>
+          <div className="auth-field">
             <label htmlFor="register-email">{t('auth.email')}</label>
             <input
               id="register-email"
@@ -61,7 +71,7 @@ export default function Register() {
               id="register-password"
               type="password"
               required
-              minLength={6}
+              minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

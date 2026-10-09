@@ -1,3 +1,17 @@
 [build]
   command = "npm run build"
   publish = ".next"
+
+# The API runs as one Netlify Function (netlify/functions/api.mjs) on the same site/origin as the pages.
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["pg-native"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Environment variables (Site settings): DATABASE_URL, DATABASE_SSL=true, JWT_SECRET. Leave NEXT_PUBLIC_API_URL unset.

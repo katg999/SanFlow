@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 import { Clock, ShieldCheck, Users, MapPinned, ArrowRight } from 'lucide-react';
 import useStats from '../hooks/useStats.js';
@@ -26,6 +28,8 @@ const OUTCOMES = [
   },
 ];
 
+const fmt = (n) => (n == null ? '—' : n.toLocaleString());
+
 export default function Impact() {
   const stats = useStats();
 
@@ -48,24 +52,24 @@ export default function Impact() {
         </div>
         <div className="container impact-stats-grid">
           <div className="impact-stat">
-            <span className="impact-stat-value">{stats.total}+</span>
+            <span className="impact-stat-value">{fmt(stats?.facilities)}</span>
             <span className="impact-stat-label">Facilities mapped</span>
           </div>
           <div className="impact-stat">
-            <span className="impact-stat-value">{stats.byCategory.toilet ?? 0}+</span>
+            <span className="impact-stat-value">{fmt(stats?.byCategory?.toilet)}</span>
             <span className="impact-stat-label">Public toilets tracked</span>
           </div>
           <div className="impact-stat">
-            <span className="impact-stat-value">{stats.byCategory.water ?? 0}+</span>
+            <span className="impact-stat-value">{fmt(stats?.byCategory?.water)}</span>
             <span className="impact-stat-label">Water points tracked</span>
           </div>
           <div className="impact-stat">
-            <span className="impact-stat-value">{stats.countries}</span>
-            <span className="impact-stat-label">Countries live</span>
+            <span className="impact-stat-value">{fmt(stats?.reportsVerified)}</span>
+            <span className="impact-stat-label">Verified citizen reports</span>
           </div>
           <div className="impact-stat">
-            <span className="impact-stat-value">{stats.avgRating.toFixed(1)}★</span>
-            <span className="impact-stat-label">Avg. community rating</span>
+            <span className="impact-stat-value">{stats?.avg_rating != null ? `${stats.avg_rating.toFixed(1)}★` : '—'}</span>
+            <span className="impact-stat-label">Avg. community rating{stats ? ` (${fmt(stats.rated)} rated)` : ''}</span>
           </div>
         </div>
       </section>

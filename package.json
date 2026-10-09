@@ -4,18 +4,35 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.mjs --dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "oxlint"
+    "start": "node server.mjs",
+    "lint": "oxlint",
+    "test": "node --test --test-concurrency=1 \"server/test/*.test.js\"",
+    "db:up": "docker compose up -d db",
+    "migrate": "node server/src/migrate.js",
+    "import": "node server/src/import.js",
+    "import:wards": "node server/src/import.js wards",
+    "import:population": "node server/src/import.js population",
+    "import:facilities": "node server/src/import.js facilities",
+    "create-admin": "node server/src/create-admin.js"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.4",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
     "leaflet": "^1.9.4",
     "lucide-react": "^1.32.0",
     "next": "^16.3.5",
+    "osmtogeojson": "^3.0.0-beta.5",
+    "pg": "^8.13.1",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "serverless-http": "^4.0.0"
   },
   "devDependencies": {
     "oxlint": "^1.75.0"

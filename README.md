@@ -5,23 +5,29 @@ clean toilets, water points, waste disposal sites and health services across
 Kenya & Uganda, with community ratings and issue reporting.
 
 Built with **Next.js (App Router)**, **React**, and **Leaflet / OpenStreetMap**
-(no API keys required to run it). Deployed on **Netlify**.
+(no API keys required to run it). Frontend on Netlify, API on Render (see `docs/BACKEND.md`).
 
 ## Getting started
 
 ```bash
+cp .env.local.example .env.local   # DATABASE_URL + JWT_SECRET
 npm install
-npm run dev
+npm run db:up                      # local PostgreSQL + PostGIS
+npm run import                     # real data: wards, population, facilities (once, ~15 min)
+npm run dev                        # web app + API on http://localhost:3000
 ```
 
-Then open the printed local URL (usually `http://localhost:3000`).
+The web app and the API are one project and one server (`server.mjs`) — see `docs/BACKEND.md`.
+
+
 
 Other scripts:
 
 ```bash
 npm run build      # production build -> .next/
-npm run start       # serve the production build locally
-npm run lint        # oxlint
+npm start          # production server (web app + API)
+npm test           # API tests (needs the local database)
+npm run lint       # oxlint
 ```
 
 ## What's here (Phase 1)
@@ -33,16 +39,25 @@ npm run lint        # oxlint
   filling/full/broken via the alert modal.
 - **About** (`/about`) — explains the 3-phase roadmap from the developer brief.
 
+## Portals & features (web)
+
+| Route | Who | What |
+| --- | --- | --- |
+| `/map` | Citizens | Find services; **"Take me to the nearest toilet"** and per-facility Directions draw a real walking route on our own map (OSRM, no API key) with turn-by-turn steps, live GPS tracking, off-route re-routing and arrival → rate / confirm. "Simulate walking" and demo locations (Kampala / Nairobi) work without leaving your desk. Reports take a photo + GPS pin and go through anti-fake verification. |
+| `/dashboard/operator` | Facility operators | Register/edit facilities (price, hours, photos, amenities, discounts), fill-level + dirtiness alerts, daily customers/income, complaints, mark cleaned, request an exhauster. |
+| `/dashboard/provider` | Exhausters / waste collectors | Job & alert queue, map + route optimisation, before/after-photo completion, printable receipts, public profile, waste-to-value impact. |
+| `/dashboard/municipality` | County / municipality | GIS heat map, gap analysis, compliance, citizen-report assignment, analytics, CSV/PDF export, bulk notices. |
+| `/dashboard/admin` | Super admin | Users & roles, audit log, deliverables tracker. |
+| `/circular-economy` | Everyone | Annex content: toilets as entry points, waste-to-value products, East Africa facts. |
+
+**Real data only.** Facilities, wards and population are imported from OpenStreetMap and WorldPop; everything else is
+created by real users. There are no demo accounts or sample data and nothing is stored in the browser — see
+`docs/BACKEND.md` for setup (importers, first admin) and limits.
+
 ### Data
 
-Facilities are seeded from `src/data/facilities.js` — realistic sample
-locations across Nairobi (Kibera, Mukuru, River Road) and Kampala (Kisenyi,
-Nakawa, Makindye), plus two rural water points. This stands in for the
-PostgreSQL/MongoDB-backed API described in the brief.
-
-User actions (star ratings, status reports) are layered on top of that
-baseline and persisted to `localStorage` via `src/hooks/useFacilityStore.js`,
-so a rating or report survives a page reload without needing a backend yet.
+All facility data comes from the API (PostgreSQL + PostGIS), imported from OpenStreetMap (`server/`, `npm run import`).
+Ratings and reports are stored server-side and verified there; the browser stores only the sign-in token.
 
 ### Proximity logic
 
@@ -76,12 +91,12 @@ re-themed with SanFlow's own colors. All theme tokens live in `src/index.css`
 (`:root` custom properties) if you want to adjust colors, radii or fonts in
 one place; fonts are loaded via `next/font/google` in `src/app/layout.jsx`.
 
-## Deploying to Netlify
+## Deploying
 
-This is a standard Next.js app — connect the repo in Netlify and it will
-auto-detect Next.js and install `@netlify/plugin-nextjs` for you. `netlify.toml`
-sets the build command (`npm run build`) and publish directory (`.next`).
-No environment variables are required for Phase 1.
+Frontend on **Netlify**, API on a free **Render** service, database on free **Neon** (PostGIS). Set
+`NEXT_PUBLIC_API_URL` on Netlify to the API URL and `CORS_ORIGIN` on Render to the Netlify URL. `render.yaml` is the Render
+blueprint; the step-by-step, including the one-off data import, is in `docs/BACKEND.md`. (`npm start` can also run the
+pages and the API together as a single service.)
 
 ## Roadmap (from the developer brief)
 

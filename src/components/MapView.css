@@ -125,3 +125,12 @@
 .leaflet-popup-content {
   min-width: unset !important;
 }
+
+.user-marker { position: relative; display: block; width: 24px; height: 24px; }
+.user-marker-dot { position: absolute; inset: 5px; border-radius: 50%; background: #2f8ad6; border: 3px solid #fff; box-shadow: 0 1px 6px rgba(0,0,0,.4); }
+.user-marker-pulse { position: absolute; inset: 0; border-radius: 50%; background: rgba(47,138,214,.35); animation: user-pulse 1.8s ease-out infinite; }
+@keyframes user-pulse { 0% { transform: scale(.6); opacity: 1; } 100% { transform: scale(1.8); opacity: 0; } }
+.map-popup .fi-item { background: #eaf2fa; color: #1b3a5c; }
+.map-popup .fi-item.fi-warn { background: #fbf1de; color: #8a5a06; }
+.map-popup .fi-item.fi-good { background: #e5f7f1; color: #17795f; }
+.map-popup .fi-amenities { color: #57697c; }

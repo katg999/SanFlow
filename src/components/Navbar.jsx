@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { Menu, X, MapPin, Globe, LogOut, Sun, Moon, User } from 'lucide-react';
 import Logo from './Logo.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
+import { ROLES } from '../data/roles.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import { useTheme } from '../context/ThemeContext.jsx';
 import './Navbar.css';
@@ -42,8 +43,13 @@ export default function Navbar() {
     { to: '/', label: t('nav.home'), end: true },
     { to: '/map', label: t('nav.findServices') },
     { to: '/impact', label: t('nav.impact') },
+    { to: '/circular-economy', label: t('nav.circular') },
     { to: '/about', label: t('nav.about') },
   ];
+
+  if (user && user.role !== 'citizen' && ROLES[user.role]) {
+    LINKS.splice(2, 0, { to: ROLES[user.role].home, label: 'My portal' });
+  }
 
   const isActive = (to, end) => (end ? pathname === to : pathname.startsWith(to));
 
@@ -102,7 +108,12 @@ export default function Navbar() {
               <div className="navbar-account-menu" role="menu">
                 {user ? (
                   <>
-                    <span className="navbar-account-hi">{t('nav.hi', { name: user.name.split(' ')[0] })}</span>
+                    <span className="navbar-account-hi">{t('nav.hi', { name: user.name.split(' ')[0] })} · {ROLES[user.role]?.label}</span>
+                    {user.role !== 'citizen' && ROLES[user.role] && (
+                      <Link href={ROLES[user.role].home} role="menuitem" className="navbar-account-item" onClick={() => setAccountOpen(false)}>
+                        My portal
+                      </Link>
+                    )}
                     <button
                       type="button"
                       role="menuitem"

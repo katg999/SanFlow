@@ -1,0 +1,6 @@
+.fi-list { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 7px; }
+.fi-item { display: inline-flex; align-items: center; gap: 4px; font-size: 0.68rem; font-weight: 600; padding: 3px 8px; border-radius: var(--radius-pill); background: var(--color-primary-tint); color: var(--color-primary); }
+.fi-item.fi-warn { background: var(--color-warning-tint); color: #8a5a06; }
+.fi-item.fi-good { background: var(--color-accent-tint); color: var(--color-accent-dark); }
+:root[data-theme='dark'] .fi-item.fi-warn { color: var(--color-warning); }
+.fi-amenities { font-size: 0.7rem; margin-top: 5px; }

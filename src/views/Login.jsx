@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext.jsx';
+import { ROLES } from '../data/roles.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './Auth.css';
 
@@ -19,10 +20,16 @@ export default function Login() {
     e.preventDefault();
     const result = await login(email, password);
     if (!result.ok) {
-      setError(t(`auth.${result.error}`));
+      setError(
+        result.error === 'networkError'
+          ? `${t('auth.networkError')}`
+          : result.error === 'accountSuspended'
+            ? 'This account has been suspended.'
+            : t(`auth.${result.error}`)
+      );
       return;
     }
-    router.push('/map');
+    router.push(ROLES[result.user?.role]?.home ?? '/map');
   };
 
   return (

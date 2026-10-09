@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { MessageCircle, X, Send, ExternalLink, MapPin } from 'lucide-react';
 import { CATEGORIES, STATUS } from '../data/facilities.js';
-import { useFacilityStore } from '../hooks/useFacilityStore.js';
+import { useFacilities } from '../hooks/useFacilities.js';
 import { distanceKm, formatDistance, sortByProximity } from '../utils/geo.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './ChatBot.css';
@@ -19,12 +19,14 @@ const CATEGORY_KEYWORDS = {
   health: ['health', 'clinic', 'pharmacy', 'hospital', 'medicine', 'afya'],
 };
 
+// What a person can tell the assistant. These become real reports (verified server-side), not direct status edits.
 const REPORTABLE_STATUS = {
-  toilet: ['clean', 'filling', 'full', 'broken'],
+  toilet: ['dirty', 'full', 'broken'],
   water: ['operational', 'broken'],
-  waste: ['clean', 'full', 'broken'],
-  health: ['open', 'closed'],
+  waste: ['dirty', 'full', 'broken'],
+  health: ['closed'],
 };
+const REPORT_TYPE_FOR = { dirty: 'dirty', full: 'full', broken: 'broken', closed: 'broken' };
 
 let uid = 0;
 const nextId = () => `m${++uid}`;
@@ -40,8 +42,8 @@ function menuQuickReplies(t) {
 
 function FacilityResult({ facility, origin, onReportThis, t }) {
   const status = STATUS[facility.status];
-  const mapsUrl = `https://www.google.com/maps?q=${facility.lat},${facility.lng}`;
   const siteUrl = `/map?focus=${facility.id}&category=${facility.category}`;
+  const navUrl = `${siteUrl}&navigate=1`;
 
   return (
     <div className="cb-facility">
@@ -56,7 +58,7 @@ function FacilityResult({ facility, origin, onReportThis, t }) {
         <a href={siteUrl} className="cb-link">
           <MapPin size={13} /> View on map
         </a>
-        <a href={mapsUrl} target="_blank" rel="noreferrer" className="cb-link">
+        <a href={navUrl} className="cb-link">
           <ExternalLink size={13} /> Directions
         </a>
         <button type="button" className="cb-link cb-link-btn" onClick={() => onReportThis(facility)}>
@@ -68,7 +70,7 @@ function FacilityResult({ facility, origin, onReportThis, t }) {
 }
 
 export default function ChatBot() {
-  const { facilities, reportIssue } = useFacilityStore();
+  const { facilities, submitReport, confirmAvailability } = useFacilities();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState(() => [
@@ -118,7 +120,7 @@ export default function ChatBot() {
     ).slice(0, 3);
 
     if (matches.length === 0) {
-      pushBot(`I couldn't find any ${t(`categories.${category}`).toLowerCase()} in the seed data yet.`);
+      pushBot(`I couldn't find any ${t(`categories.${category}`).toLowerCase()} in the map data yet.`);
     } else {
       pushBot(`Here are the closest ${t(`categories.${category}`).toLowerCase()} ${originLabel}:`, {
         facilityResults: matches.map((f) => ({ facility: f, origin })),
@@ -151,13 +153,19 @@ export default function ChatBot() {
     });
   };
 
-  const finishReport = (statusKey) => {
+  const finishReport = async (statusKey) => {
     const facility = facilities.find((f) => f.id === draft.facilityId);
     if (facility) {
-      reportIssue(facility.id, statusKey, 'Reported via site assistant');
-      pushBot(
-        `Thanks! I've logged "${facility.name}" as ${t(`status.${statusKey}`).toLowerCase()}. The community and site visitors will see this update.`
-      );
+      if (statusKey === 'operational') {
+        await confirmAvailability(facility, true);
+        pushBot(`Thanks! I've noted that "${facility.name}" is working today.`);
+      } else {
+        const result = await submitReport({ facility, type: REPORT_TYPE_FOR[statusKey], note: 'Reported via site assistant', gps: null });
+        if (result.code === 'duplicate') pushBot(`You've already reported "${facility.name}" today — thanks, we have it.`);
+        else if (!result.ok) pushBot(result.message || "Sorry, I couldn't send that report right now.");
+        else if (result.verified) pushBot(`Thanks! I've logged "${facility.name}" as ${t(`status.${statusKey}`).toLowerCase()} and alerted the people responsible.`);
+        else pushBot(`Thanks! Your report about "${facility.name}" is recorded. It goes live once another person confirms it (this stops fake reports).`);
+      }
     }
     setTimeout(goToMenu, 300);
   };

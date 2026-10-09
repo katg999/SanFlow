@@ -89,3 +89,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+.footer-attribution { font-size: 0.72rem; opacity: 0.65; padding: 14px 24px 0; }

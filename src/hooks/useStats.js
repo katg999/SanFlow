@@ -1,13 +1,13 @@
-import { FACILITIES, CATEGORIES } from '../data/facilities.js';
+'use client';
 
+import { useEffect, useState } from 'react';
+import { apiFetch } from '../utils/api.js';
+
+// Real platform counts from the API (null until loaded, or if the server is unreachable).
 export default function useStats() {
-  const total = FACILITIES.length;
-  const byCategory = Object.keys(CATEGORIES).reduce((acc, key) => {
-    acc[key] = FACILITIES.filter((f) => f.category === key).length;
-    return acc;
-  }, {});
-  const countries = new Set(FACILITIES.map((f) => f.country)).size;
-  const avgRating = FACILITIES.reduce((sum, f) => sum + f.rating, 0) / FACILITIES.length;
-
-  return { total, byCategory, countries, avgRating };
+  const [stats, setStats] = useState(null);
+  useEffect(() => {
+    apiFetch('/api/stats').then(setStats).catch(() => setStats(null));
+  }, []);
+  return stats;
 }

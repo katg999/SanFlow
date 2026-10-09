@@ -17,6 +17,8 @@ import useStats from '../hooks/useStats.js';
 import { useLanguage } from '../i18n/LanguageContext.jsx';
 import './Landing.css';
 
+const fmt = (n) => (n == null ? '—' : n.toLocaleString());
+
 const GALLERY = [
   { src: '/facilities/toilet-1.jpg', tag: 'Public toilet', caption: 'Newly built toilet block, ready for community use.' },
   { src: '/facilities/toilet-2.jpg', tag: 'Public toilet', caption: 'Toilet block with separate stalls and roofed access path.' },
@@ -88,23 +90,23 @@ export default function Landing() {
         </div>
         <div className="container stats-grid">
           <div className="stat-tile">
-            <span className="stat-value">{stats.total}+</span>
+            <span className="stat-value">{fmt(stats?.facilities)}</span>
             <span className="stat-label">{t('landing.statFacilities')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.byCategory.toilet ?? 0}+</span>
+            <span className="stat-value">{fmt(stats?.byCategory?.toilet)}</span>
             <span className="stat-label">{t('landing.statToilets')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.byCategory.water ?? 0}+</span>
+            <span className="stat-value">{fmt(stats?.byCategory?.water)}</span>
             <span className="stat-label">{t('landing.statWater')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.countries}</span>
+            <span className="stat-value">{fmt(stats?.countries)}</span>
             <span className="stat-label">{t('landing.statCountries')}</span>
           </div>
           <div className="stat-tile">
-            <span className="stat-value">{stats.avgRating.toFixed(1)}★</span>
+            <span className="stat-value">{stats?.avg_rating != null ? `${stats.avg_rating.toFixed(1)}★` : '—'}</span>
             <span className="stat-label">{t('landing.statRating')}</span>
           </div>
         </div>
@@ -200,6 +202,30 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Annex: tagline + one platform, four sides */}
+      <section className="landing-portals">
+        <div className="container">
+          <p className="landing-tagline">Find. Access. Report. Respond. Transform.</p>
+          <div className="landing-portal-grid">
+            {[
+              ['/map', 'Citizens', 'Find the nearest clean toilet and be guided there — without leaving the site.'],
+              ['/login', 'Facility operators', 'List your facility, set prices, get fill-level alerts and see your income.'],
+              ['/login', 'Service providers', 'Receive exhauster and repair jobs, optimise routes, issue digital receipts.'],
+              ['/login', 'Municipalities', 'A live control tower: GIS, gap analysis, compliance, reports and bulk notices.'],
+            ].map(([href, title, text]) => (
+              <Link key={title} href={href} className="landing-portal-card">
+                <h3>{title}</h3>
+                <p>{text}</p>
+                <span>Open <ArrowRight size={14} /></span>
+              </Link>
+            ))}
+          </div>
+          <p className="landing-circ">
+            Waste is a resource. <Link href="/circular-economy">See how collected waste becomes fertilizer, biogas and carbon credits <ArrowRight size={14} /></Link>
+          </p>
+        </div>
+      </section>
+
       {/* CTA for organizations */}
       <section className="org-cta">
         <div className="container org-cta-inner reveal">
@@ -211,9 +237,9 @@ export default function Landing() {
             <p>{t('landing.orgText')}</p>
           </div>
           <div className="org-cta-actions">
-            <a href="#admin" className="btn btn-accent">
+            <Link href="/login" className="btn btn-accent">
               {t('landing.orgCta')} <ArrowRight size={16} />
-            </a>
+            </Link>
             <span className="org-cta-note">{t('landing.orgNote')}</span>
           </div>
         </div>
