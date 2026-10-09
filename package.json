@@ -15,7 +15,8 @@
     "import:wards": "node server/src/import.js wards",
     "import:population": "node server/src/import.js population",
     "import:facilities": "node server/src/import.js facilities",
-    "create-admin": "node server/src/create-admin.js"
+    "create-admin": "node server/src/create-admin.js",
+    "dev:web": "API_PROXY=https://sanflow.org next dev"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -35,6 +36,7 @@
     "serverless-http": "^4.0.0"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.16.2",
     "oxlint": "^1.75.0"
   }
 }

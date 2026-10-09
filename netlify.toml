@@ -2,6 +2,10 @@
   command = "npm run build"
   publish = ".next"
 
+# Run the Next.js adapter explicitly. Without this a git-triggered build can publish the raw .next folder (every page 404s).
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
+
 # The API runs as one Netlify Function (netlify/functions/api.mjs) on the same site/origin as the pages.
 [functions]
   directory = "netlify/functions"
